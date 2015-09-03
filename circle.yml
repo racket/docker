@@ -12,3 +12,4 @@ test:
     - docker build 6.0
     - docker build 5.9.3
     - docker build 5.9.2
+    - docker build 5.3.6
