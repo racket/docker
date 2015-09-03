@@ -1,0 +1,9 @@
+machine:
+  services:
+    - docker
+
+test:
+  override:
+    - docker build 6.2.1
+    - docker build 6.2
+    - docker build 6.1.1
