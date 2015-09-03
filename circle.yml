@@ -10,8 +10,6 @@ test:
     - docker build 6.1
     - docker build 6.0.1
     - docker build 6.0
-    - docker build 5.93
-    - docker build 5.92
     - docker build 5.3.6
     - docker build 5.3.5
     - docker build 5.3.4
