@@ -8,7 +8,7 @@ RUN apt-get update && \
 ENV RACKET_VERSION 5.3.3
 
 RUN wget --output-document=racket-install.sh \
-         http://mirror.racket-lang.org/installers/$RACKET_VERSION/racket-$RACKET_VERSION-x86_64-linux-debian-squeeze.sh && \
+         http://mirror.racket-lang.org/installers/$RACKET_VERSION/racket/racket-$RACKET_VERSION-x86_64-linux-debian-squeeze.sh && \
     echo "yes\n1\n" | /bin/bash racket-install.sh && \
     rm racket-install.sh
 
