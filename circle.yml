@@ -14,3 +14,8 @@ test:
     - docker build 5.9.2
     - docker build 5.3.6
     - docker build 5.3.5
+    - docker build 5.3.4
+    - docker build 5.3.3
+    - docker build 5.3.2
+    - docker build 5.3.1
+    - docker build 5.3
