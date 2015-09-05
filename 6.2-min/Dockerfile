@@ -10,3 +10,5 @@ RUN curl http://mirror.racket-lang.org/installers/$RACKET_VERSION/racket-minimal
 WORKDIR racket-$RACKET_VERSION/src
 
 RUN ./configure && make && make install
+
+WORKDIR /
