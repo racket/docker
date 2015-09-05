@@ -5,7 +5,7 @@ machine:
 test:
   override:
     - docker build 6.2.1
-    - docker build 6.2
+    - docker build -t racket:6.2 6.2
     - docker build 6.1.1
     - docker build 6.1
     - docker build 6.0.1
