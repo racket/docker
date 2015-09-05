@@ -2,7 +2,7 @@ FROM debian
 MAINTAINER Jack Firth <jackhfirth@gmail.com>
 
 RUN apt-get update && \
-    apt-get install -y wget && \
+    apt-get install -y wget sqlite3 && \
     rm -rf /var/lib/apt/lists/*
 
 ENV RACKET_VERSION 5.3.6
