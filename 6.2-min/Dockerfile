@@ -1,6 +1,16 @@
 FROM alpine:3.2
 
-RUN apk update && apk add alpine-sdk
+RUN apk update && apk add wget
+
+RUN wget --no-check-certificate "https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-2.21-r2.apk"
+RUN apk add --allow-untrusted glibc-2.21-r2.apk
+RUN wget --no-check-certificate "https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-bin-2.21-r2.apk"
+RUN apk add --allow-untrusted glibc-bin-2.21-r2.apk
+RUN /usr/glibc/usr/bin/ldconfig /lib /usr/glibc/usr/lib
+
+RUN apk add gcc curl tar
+
+RUN gcc -print-file-name=libc.so
 
 ENV RACKET_VERSION 6.2
 
