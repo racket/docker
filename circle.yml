@@ -4,7 +4,7 @@ machine:
 
 test:
   override:
-    - docker build -t jackfirtch/racket:6.3             6.3
+    - docker build -t jackfirth/racket:6.3             6.3
     - docker build -t jackfirth/racket:6.2.1            6.2.1
     - docker build -t jackfirth/racket:6.2              6.2
     - docker build -t jackfirth/racket:6.1.1            6.1.1
