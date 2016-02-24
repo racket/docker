@@ -2,7 +2,7 @@ FROM philcryer/min-wheezy
 MAINTAINER Jack Firth <jackhfirth@gmail.com>
 
 RUN apt-get update && \
-    apt-get install -y wget sqlite3 && \
+    apt-get install -y wget sqlite3 ca-certificates openssl && \
     rm -rf /var/lib/apt/lists/*
 
 ENV RACKET_VERSION 5.1.3
