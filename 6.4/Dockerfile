@@ -6,10 +6,13 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 ENV RACKET_VERSION 6.4
-ENV RACKET_INSTALLER_URL http://mirror.racket-lang.org/installers/$RACKET_VERSION/racket-$RACKET_VERSION-x86_64-linux-debian-squeeze.sh
+ENV RACKET_INSTALLER_URL http://mirror.racket-lang.org/installers/$RACKET_VERSION/racket-minimal-$RACKET_VERSION-x86_64-linux-debian-squeeze.sh
 
 RUN wget --output-document=racket-install.sh $RACKET_INSTALLER_URL && \
     echo "yes\n1\n" | /bin/bash racket-install.sh && \
     rm racket-install.sh
+
+ENV PLT_SETUP_OPTIONS="--no-docs"
+RUN raco setup
 
 CMD ["racket"]
