@@ -4,7 +4,7 @@ machine:
 
 test:
   override:
-    - build() { docker build -t jackfirth/racket:$1 $1 }
+    - build () { docker build -t jackfirth/racket:$1 $1; }
     - build 6.4
     - build 6.3
     - build 6.2.1
