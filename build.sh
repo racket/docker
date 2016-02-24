@@ -1,0 +1,30 @@
+set -e
+
+build () { docker build -t jackfirth/racket:$1 $1; }
+build 6.4
+build 6.3
+build 6.2.1
+build 6.2
+build 6.1.1
+build 6.1
+build 6.0.1
+build 6.0
+build 5.3.6
+build 5.3.5
+build 5.3.4
+build 5.3.3
+build 5.3.2
+build 5.3.1
+build 5.3
+build 5.2.1
+build 5.2
+build 5.1.3
+build 5.1.2
+build 6.4-onbuild
+build 6.4-onbuild-test
+build 6.3-onbuild
+build 6.3-onbuild-test
+build 6.2.1-onbuild
+build 6.2.1-onbuild-test
+build 6.2-onbuild
+build 6.2-onbuild-test
