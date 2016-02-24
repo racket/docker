@@ -1,8 +1,8 @@
-FROM jackfirth/racket:6.2
+FROM jackfirth/racket:6.4
 
 WORKDIR /src
 ONBUILD ADD ./src/info.rkt ./info.rkt
 ONBUILD RUN raco pkg install --link --auto
 ONBUILD ADD ./src .
 ONBUILD RUN raco setup
-ONBUILD CMD ["racket", "main.rkt"]
+ONBUILD CMD ["raco", "test", "."]

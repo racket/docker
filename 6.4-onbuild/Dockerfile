@@ -1,4 +1,4 @@
-FROM jackfirth/racket:6.2
+FROM jackfirth/racket:6.4
 
 WORKDIR /src
 ONBUILD ADD ./src/info.rkt ./info.rkt

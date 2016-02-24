@@ -2,8 +2,7 @@ FROM jackfirth/racket:6.3
 
 WORKDIR /src
 ONBUILD ADD ./src/info.rkt ./info.rkt
-ONBUILD RUN raco pkg install --link --deps search-auto
+ONBUILD RUN raco pkg install --link --auto
 ONBUILD ADD ./src .
-ONBUILD RUN raco test .
-ONBUILD RUN raco exe ./main.rkt
-ONBUILD CMD ["./main"]
+ONBUILD RUN raco setup
+ONBUILD CMD ["raco", "test", "."]
