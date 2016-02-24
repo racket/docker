@@ -1,6 +1,6 @@
 set -e
 
-docker login --email="${DOCKER_EMAIL}" --password="${DOCKER_PASSWORD}" --username="${DOCKER_USERNAME}"
+docker login --email="${DOCKER_USER_EMAIL}" --password="${DOCKER_USER_PASSWORD}" --username="${DOCKER_USER_NAME}"
 push () { docker push jackfirth/racket:$1; }
 push 6.4
 push 6.3
