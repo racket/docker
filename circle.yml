@@ -5,3 +5,9 @@ machine:
 test:
   override:
     - bash ./build.sh
+
+deployment:
+  default:
+    branch: master
+    commands:
+      - bash ./deploy.sh
