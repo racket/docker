@@ -25,7 +25,7 @@ That is, your Dockerfile must be adjacent to a `src` directory containing an `in
 2. The `src/info.rkt` module is added to the image as `/src/info.rkt`
 3. Dependencies are installed with `raco pkg install --link --deps search-auto`
 4. The remaining code in `src` is added to the image's `/src` directory
-5. The `main.rkt` module is compiled to `/src/main` with `raco exe`
-6. The `ENTRYPOINT` of the image is set to `./main`
+5. Bytecode is created through `raco setup`.
+6. The image's `CMD` is set to `racket main.rkt`. No setup should occur because of step 5.
 
 When working with the `onbuild-test` variants, the same steps occur but with a `raco test .` command between 5 and 6. This allows you to make testing your app part of your build process, which is nice for simple CI builds.
