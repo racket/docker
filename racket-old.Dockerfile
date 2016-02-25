@@ -13,6 +13,5 @@ RUN wget --output-document=racket-install.sh -q $RACKET_INSTALLER_URL && \
     rm racket-install.sh
 
 RUN raco setup --no-docs
-RUN raco pkg config --set catalogs "https://download.racket-lang.org/releases/$RACKET_VERSION/catalog/" "https://pkg-build.racket-lang.org/server/built/catalog/" "https://pkgs.racket-lang.org" "https://planet-compats.racket-lang.org"
 
 CMD ["racket"]
