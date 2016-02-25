@@ -1,15 +1,15 @@
 set -e
 
 build_template () {
-  docker build -t jackfirth/racket:$1 -f racket.Dockerfile --build-arg RACKET_INSTALLER_URL=$2 .
+  docker build -t jackfirth/racket:$1 -f racket.Dockerfile --build-arg RACKET_INSTALLER_URL=$2 .;
 }
 
 build_6x () {
-  build_template $1 "http://mirror.racket-lang.org/installers/$1/racket-minimal-$1-x86_64-linux-debian-squeeze.sh"
+  build_template $1 "http://mirror.racket-lang.org/installers/$1/racket-minimal-$1-x86_64-linux-debian-squeeze.sh";
 }
 
 build_5x () {
-  build template $1 "http://mirror.racket-lang.org/installers/$1/racket-textual/racket-textual-$1-bin-x86_64-linux-debian-squeeze.sh"
+  build template $1 "http://mirror.racket-lang.org/installers/$1/racket-textual/racket-textual-$1-bin-x86_64-linux-debian-squeeze.sh";
 }
 
 build () { docker build -t jackfirth/racket:$1 $1; }
