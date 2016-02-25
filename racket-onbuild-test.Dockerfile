@@ -11,13 +11,13 @@ RUN wget --output-document=racket-install.sh -q $RACKET_INSTALLER_URL && \
     echo "yes\n1\n" | /bin/bash racket-install.sh && \
     rm racket-install.sh
 
-ENV PLT_SETUP_OPTIONS="--no-docs"
-RUN raco setup
+RUN raco setup --no-docs
 
 WORKDIR /src
 CMD ["raco", "test", "."]
 
 ONBUILD ADD ./src/info.rkt ./info.rkt
-ONBUILD RUN raco pkg install --link --auto
+ONBUILD RUN raco pkg install --link --auto --no-setup
+ONBUILD RUN raco setup --no-docs
 ONBUILD ADD ./src .
-ONBUILD RUN raco setup
+ONBUILD RUN raco setup --no-docs

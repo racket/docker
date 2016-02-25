@@ -11,7 +11,6 @@ RUN wget --output-document=racket-install.sh -q $RACKET_INSTALLER_URL && \
     echo "yes\n1\n" | /bin/bash racket-install.sh && \
     rm racket-install.sh
 
-ENV PLT_SETUP_OPTIONS="--no-docs"
-RUN raco setup
+RUN raco setup --no-docs
 
 CMD ["racket"]
