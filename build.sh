@@ -9,7 +9,7 @@ build_6x () {
 }
 
 build_5x () {
-  build template $1 "http://mirror.racket-lang.org/installers/$1/racket-textual/racket-textual-$1-bin-x86_64-linux-debian-squeeze.sh";
+  build_template $1 "http://mirror.racket-lang.org/installers/$1/racket-textual/racket-textual-$1-bin-x86_64-linux-debian-squeeze.sh";
 }
 
 build () { docker build -t jackfirth/racket:$1 $1; }
