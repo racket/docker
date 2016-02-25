@@ -7,7 +7,7 @@ RUN apt-get update && \
 
 ARG RACKET_INSTALLER_URL
 
-RUN wget --output-document=racket-install.sh $RACKET_INSTALLER_URL && \
+RUN wget --output-document=racket-install.sh -q $RACKET_INSTALLER_URL && \
     echo "yes\n1\n" | /bin/bash racket-install.sh && \
     rm racket-install.sh
 
