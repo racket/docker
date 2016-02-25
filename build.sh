@@ -16,6 +16,10 @@ build_onbuild_6x () {
   build_template racket-onbuild $1-onbuild "http://mirror.racket-lang.org/installers/$1/racket-minimal-$1-x86_64-linux-debian-squeeze.sh";
 }
 
+build_onbuild_test_6x () {
+  build_template racket-onbuild-test $1-onbuild-test "http://mirror.racket-lang.org/installers/$1/racket-minimal-$1-x86_64-linux-debian-squeeze.sh";
+}
+
 build () { docker build -t jackfirth/racket:$1 $1; }
 build_6x 6.4
 build_6x 6.3
@@ -40,7 +44,7 @@ build_onbuild_6x 6.4
 build_onbuild_6x 6.3
 build_onbuild_6x 6.2.1
 build_onbuild_6x 6.2
-build 6.4-onbuild-test
-build 6.3-onbuild-test
-build 6.2.1-onbuild-test
-build 6.2-onbuild-test
+build_onbuild_test_6x 6.4
+build_onbuild_test_6x 6.3
+build_onbuild_test_6x 6.2.1
+build_onbuild_test_6x 6.2

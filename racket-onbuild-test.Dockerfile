@@ -15,7 +15,7 @@ ENV PLT_SETUP_OPTIONS="--no-docs"
 RUN raco setup
 
 WORKDIR /src
-CMD ["racket", "main.rkt"]
+CMD ["raco", "test", "."]
 
 ONBUILD ADD ./src/info.rkt ./info.rkt
 ONBUILD RUN raco pkg install --link --auto
