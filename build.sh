@@ -1,7 +1,7 @@
 set -e
 
 build_template () {
-  docker build -t jackfirth/racket:$1 -f racket.Dockerfile --build-arg RACKET_INSTALLER_URL=$2.
+  docker build -t jackfirth/racket:$1 -f racket.Dockerfile --build-arg RACKET_INSTALLER_URL=$2 .
 }
 
 build_6x () {
