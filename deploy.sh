@@ -1,9 +1,10 @@
 set -e
 
 docker login --email="${DOCKER_USER_EMAIL}" --password="${DOCKER_USER_PASSWORD}" --username="${DOCKER_USER_NAME}"
-docker tag jackfirth/racket:6.5 jackfirth/racket:latest
+docker tag jackfirth/racket:6.6 jackfirth/racket:latest
 push () { docker push jackfirth/racket:$1; }
 push latest
+push 6.6
 push 6.5
 push 6.4
 push 6.3
