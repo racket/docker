@@ -1,4 +1,4 @@
-set -e
+set -euf -o pipefail
 
 docker login --email="${DOCKER_USER_EMAIL}" --password="${DOCKER_USER_PASSWORD}" --username="${DOCKER_USER_NAME}"
 docker tag jackfirth/racket:6.6 jackfirth/racket:latest
@@ -25,6 +25,8 @@ push 5.2.1
 push 5.2
 push 5.1.3
 push 5.1.2
+push 6.6-onbuild
+push 6.6-onbuild-test
 push 6.5-onbuild
 push 6.5-onbuild-test
 push 6.4-onbuild

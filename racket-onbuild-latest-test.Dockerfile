@@ -16,10 +16,10 @@ RUN raco setup
 RUN raco pkg config --set catalogs "https://download.racket-lang.org/releases/$RACKET_VERSION/catalog/" "https://pkg-build.racket-lang.org/server/built/catalog/" "https://pkgs.racket-lang.org" "https://planet-compats.racket-lang.org"
 
 WORKDIR /src
-CMD ["racket", "main.rkt"]
+CMD ["raco", "test", "."]
 
+ONBUILD RUN raco setup
 ONBUILD ADD ./src/info.rkt ./info.rkt
-ONBUILD RUN raco pkg install --auto --no-setup
-ONBUILD RUN raco setup --no-docs
+ONBUILD RUN raco pkg install --auto --binary-lib
 ONBUILD ADD ./src .
-ONBUILD RUN raco setup --no-docs
+ONBUILD RUN raco setup
