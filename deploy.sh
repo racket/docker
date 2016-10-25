@@ -25,6 +25,8 @@ push 5.2.1
 push 5.2
 push 5.1.3
 push 5.1.2
+push 6.6-onbuild
+push 6.6-onbuild-test
 push 6.5-onbuild
 push 6.5-onbuild-test
 push 6.4-onbuild
