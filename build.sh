@@ -53,6 +53,7 @@ foreach build_6x_debian 6.4 6.3 6.2.1 6.2 6.1.1 6.1 6.0.1 6.0
 foreach build_5x 5.3.6 5.3.5 5.3.4 5.3.3 5.3.2 5.3.1 5.3 5.2.1 5.2 5.1.3 5.1.2
 build_onbuild_latest 6.6
 build_onbuild_test_latest 6.6
+foreach build_onbuild_6x 6.5
 foreach build_onbuild_test_6x 6.5
 foreach build_onbuild_6x_debian 6.4 6.3 6.2.1 6.2
 foreach build_onbuild_test_6x_debian 6.4 6.3 6.2.1 6.2
