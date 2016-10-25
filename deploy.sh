@@ -1,4 +1,4 @@
-set -e
+set -euf -o pipefail
 
 docker login --email="${DOCKER_USER_EMAIL}" --password="${DOCKER_USER_PASSWORD}" --username="${DOCKER_USER_NAME}"
 docker tag jackfirth/racket:6.6 jackfirth/racket:latest
