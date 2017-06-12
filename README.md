@@ -1,11 +1,13 @@
 # racket-docker [![Circle CI](https://circleci.com/gh/jackfirth/racket-docker.svg?style=svg)](https://circleci.com/gh/jackfirth/racket-docker)
-Docker images for various Racket versions
+Docker images for various Racket versions.
 
 #### Normal images
 
 Base: Debian jesse
 
 CMD: `racket`
+
+These images use the `minimal-install` of Racket to avoid pulling in things like DrRacket or Scribble. This also means many `raco` commands such as `raco make` will be missing; install the `compiler-lib` package to get most of the standard `raco` commands.
 
 ### ONBUILD images
 
