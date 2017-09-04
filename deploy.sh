@@ -1,9 +1,10 @@
 set -euf -o pipefail
 
 docker login --email="${DOCKER_USER_EMAIL}" --password="${DOCKER_USER_PASSWORD}" --username="${DOCKER_USER_NAME}"
-docker tag jackfirth/racket:6.9 jackfirth/racket:latest
+docker tag jackfirth/racket:6.10 jackfirth/racket:latest
 push () { docker push jackfirth/racket:$1; }
 push latest
+push 6.10
 push 6.9
 push 6.8
 push 6.7
