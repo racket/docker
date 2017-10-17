@@ -1,5 +1,5 @@
 # racket-docker [![Circle CI](https://circleci.com/gh/jackfirth/racket-docker.svg?style=svg)](https://circleci.com/gh/jackfirth/racket-docker)
-Docker images for various Racket versions available on DockerHub as [jackfirth/racket:<version>](https://hub.docker.com/r/jackfirth/racket/)
+Docker images for various Racket versions available on DockerHub as [`jackfirth/racket:<version>`](https://hub.docker.com/r/jackfirth/racket/)
 
 #### Normal images
 
