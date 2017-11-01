@@ -1,9 +1,11 @@
 set -euf -o pipefail
 
 docker login --email="${DOCKER_USER_EMAIL}" --password="${DOCKER_USER_PASSWORD}" --username="${DOCKER_USER_NAME}"
-docker tag jackfirth/racket:6.10 jackfirth/racket:latest
+docker tag jackfirth/racket:6.11 jackfirth/racket:latest
 push () { docker push jackfirth/racket:$1; }
 push latest
+push 6.11
+push 6.10.1
 push 6.10
 push 6.9
 push 6.8
@@ -29,6 +31,14 @@ push 5.2.1
 push 5.2
 push 5.1.3
 push 5.1.2
+push 6.11-onbuild
+push 6.11-onbuild-test
+push 6.10.1-onbuild
+push 6.10.1-onbuild-test
+push 6.10-onbuild
+push 6.10-onbuild-test
+push 6.9-onbuild
+push 6.9-onbuild-test
 push 6.8-onbuild
 push 6.8-onbuild-test
 push 6.7-onbuild
