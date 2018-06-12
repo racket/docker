@@ -1,4 +1,4 @@
-FROM philcryer/min-wheezy
+FROM debian:stable-slim
 MAINTAINER Jack Firth <jackhfirth@gmail.com>
 
 RUN apt-get update && \
