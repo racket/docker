@@ -1,0 +1,9 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/buildpack-deps:stable-dind
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: ./build.sh
