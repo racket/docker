@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/buildpack-deps:stable-dind
+      - image: circleci/buildpack-deps:stable
     steps:
       - checkout
       - setup_remote_docker
