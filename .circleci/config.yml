@@ -12,6 +12,7 @@ jobs:
     docker:
       - image: circleci/buildpack-deps:stable
     steps:
+      - checkout
       - run: ./deploy.sh
 
 workflows:
