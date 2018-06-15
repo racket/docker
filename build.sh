@@ -24,7 +24,7 @@ installer_url () {
 build_6x () {
   declare -r version="${1}";
   declare -r installer_path="racket-minimal-${version}-x86_64-linux.sh";
-  declare -r installer="$(installer_url \"${version}\" \"${installer_path}\")" || exit "${?}";
+  declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
   declare -r plain_tag="${version}";
   declare -r onbuild_tag="${version}-onbuild";
   declare -r onbuild_test_tag="${version}-onbuild-test";
@@ -36,7 +36,7 @@ build_6x () {
 build_6x_debian () {
   declare -r version="${1}";
   declare -r installer_path="racket-minimal-${version}-x86_64-linux-debian-squeeze.sh";
-  declare -r installer="$(installer_url \"${version}\" \"${installer_path}\")" || exit "${?}";
+  declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
   declare -r plain_tag="${version}";
   declare -r onbuild_tag="${version}-onbuild";
   declare -r onbuild_test_tag="${version}-onbuild-test";
@@ -48,7 +48,7 @@ build_6x_debian () {
 build_5x () {
   declare -r version="${1}";
   declare -r installer_path="racket-textual/racket-textual-${version}-bin-x86_64-linux-debian-squeeze.sh";
-  declare -r installer="$(installer_url \"${version}\" \"${installer_path}\")" || exit "${?}";
+  declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
   build_template "racket-old" "${version}" "${installer}" "${version}";
 };
 
