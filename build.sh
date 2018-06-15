@@ -1,50 +1,52 @@
-set -e
+#!/usr/bin/env bash
+
+set -euxo pipefail
 
 build_template () {
-  docker build -f $1.Dockerfile -t jackfirth/racket:$2 --build-arg RACKET_INSTALLER_URL=$3 --build-arg RACKET_VERSION=$4 .;
+  docker build -f ${1}.Dockerfile -t jackfirth/racket:${2} --build-arg RACKET_INSTALLER_URL=${3} --build-arg RACKET_VERSION=${4} .;
 }
 
 build_6x () {
-  build_template racket $1 "http://mirror.racket-lang.org/installers/$1/racket-minimal-$1-x86_64-linux.sh" $1;
+  build_template racket ${1} "http://mirror.racket-lang.org/installers/${1}/racket-minimal-${1}-x86_64-linux.sh" ${1};
 }
 
 build_6x_debian () {
-  build_template racket $1 "http://mirror.racket-lang.org/installers/$1/racket-minimal-$1-x86_64-linux-debian-squeeze.sh" $1;
+  build_template racket ${1} "http://mirror.racket-lang.org/installers/${1}/racket-minimal-${1}-x86_64-linux-debian-squeeze.sh" ${1};
 }
 
 build_5x () {
-  build_template racket-old $1 "http://mirror.racket-lang.org/installers/$1/racket-textual/racket-textual-$1-bin-x86_64-linux-debian-squeeze.sh" $1;
+  build_template racket-old ${1} "http://mirror.racket-lang.org/installers/${1}/racket-textual/racket-textual-${1}-bin-x86_64-linux-debian-squeeze.sh" ${1};
 }
 
 build_onbuild_6x () {
-  build_template racket-onbuild $1-onbuild "http://mirror.racket-lang.org/installers/$1/racket-minimal-$1-x86_64-linux.sh" $1;
+  build_template racket-onbuild ${1}-onbuild "http://mirror.racket-lang.org/installers/${1}/racket-minimal-${1}-x86_64-linux.sh" ${1};
 }
 
 build_onbuild_test_6x () {
-  build_template racket-onbuild-test $1-onbuild-test "http://mirror.racket-lang.org/installers/$1/racket-minimal-$1-x86_64-linux.sh" $1;
+  build_template racket-onbuild-test ${1}-onbuild-test "http://mirror.racket-lang.org/installers/${1}/racket-minimal-${1}-x86_64-linux.sh" ${1};
 }
 
 build_onbuild_6x_debian () {
-  build_template racket-onbuild $1-onbuild "http://mirror.racket-lang.org/installers/$1/racket-minimal-$1-x86_64-linux-debian-squeeze.sh" $1;
+  build_template racket-onbuild ${1}-onbuild "http://mirror.racket-lang.org/installers/${1}/racket-minimal-${1}-x86_64-linux-debian-squeeze.sh" ${1};
 }
 
 build_onbuild_test_6x_debian () {
-  build_template racket-onbuild-test $1-onbuild-test "http://mirror.racket-lang.org/installers/$1/racket-minimal-$1-x86_64-linux-debian-squeeze.sh" $1;
+  build_template racket-onbuild-test ${1}-onbuild-test "http://mirror.racket-lang.org/installers/${1}/racket-minimal-${1}-x86_64-linux-debian-squeeze.sh" ${1};
 }
 
 build_onbuild_latest () {
-  build_template racket-onbuild $1-onbuild "http://mirror.racket-lang.org/installers/$1/racket-minimal-$1-x86_64-linux.sh" $1;
+  build_template racket-onbuild ${1}-onbuild "http://mirror.racket-lang.org/installers/${1}/racket-minimal-${1}-x86_64-linux.sh" ${1};
 }
 
 build_onbuild_test_latest () {
-  build_template racket-onbuild-test $1-onbuild-test "http://mirror.racket-lang.org/installers/$1/racket-minimal-$1-x86_64-linux.sh" $1;
+  build_template racket-onbuild-test ${1}-onbuild-test "http://mirror.racket-lang.org/installers/${1}/racket-minimal-${1}-x86_64-linux.sh" ${1};
 }
 
 foreach () {
-  command=$1;
+  local command=${1};
   shift;
   for arg in "$@"; do
-    $command $arg;
+    ${command} $arg;
   done
 }
 
