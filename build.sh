@@ -55,7 +55,7 @@ build_5x () {
 foreach () {
   declare -r command="${1}";
   declare -r args="${@:2}";
-  for _arg in "${args}"; do
+  for _arg in ${args}; do
     "${command}" "${_arg}";
   done;
 };
