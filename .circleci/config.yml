@@ -8,7 +8,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: ./build.sh
-  deploy:
+  build-and-deploy:
     docker:
       - image: circleci/buildpack-deps:stable
     steps:
@@ -20,12 +20,16 @@ jobs:
 
 workflows:
   version: 2
-  build-deploy:
+  build:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              ignore:
+                - master
+  build-and-deploy:
+    jobs:
       - deploy:
-          requires:
-            - build
           filters:
             branches:
               only:
