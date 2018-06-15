@@ -14,6 +14,7 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker
+      - run: ./build.sh
       - run: ./login.sh
       - run: ./deploy.sh
 
