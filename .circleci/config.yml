@@ -13,6 +13,7 @@ jobs:
       - image: circleci/buildpack-deps:stable
     steps:
       - checkout
+      - setup_remote_docker
       - run: ./login.sh
       - run: ./deploy.sh
 

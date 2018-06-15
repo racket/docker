@@ -4,11 +4,11 @@ set -euxfo pipefail;
 
 declare -r LATEST_RACKET_VERSION="6.12";
 
-docker tag "jackfirth/racket:${LATEST_RACKET_VERSION}" "jackfirth/racket:latest";
+docker image tag "jackfirth/racket:${LATEST_RACKET_VERSION}" "jackfirth/racket:latest";
 
 push () {
   declare -r version="${1}";
-  docker push "jackfirth/racket:${version}";
+  docker image push "jackfirth/racket:${version}";
 };
 
 foreach () {

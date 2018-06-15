@@ -7,7 +7,7 @@ build_template () {
   declare -r tag="jackfirth/racket:${2}";
   declare -r installer_arg="RACKET_INSTALLER_URL=${3}";
   declare -r version_arg="RACKET_VERSION=${4}";
-  docker build \
+  docker image build \
       -f "${dockerfile}" \
       -t "${tag}" \
       --build-arg "${installer_arg}" \
