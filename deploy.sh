@@ -4,11 +4,6 @@ set -euxfo pipefail;
 
 declare -r LATEST_RACKET_VERSION="6.12";
 
-docker login \
-    --email="${DOCKER_USER_EMAIL}" \
-    --password="${DOCKER_USER_PASSWORD}" \
-    --username="${DOCKER_USER_NAME}";
-
 docker tag "jackfirth/racket:${LATEST_RACKET_VERSION}" "jackfirth/racket:latest";
 
 push () {
