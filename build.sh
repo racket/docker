@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -euxo pipefail
+set -euxfo pipefail
 
 build_template () {
   docker build -f ${1}.Dockerfile -t jackfirth/racket:${2} --build-arg RACKET_INSTALLER_URL=${3} --build-arg RACKET_VERSION=${4} .;
