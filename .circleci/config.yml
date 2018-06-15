@@ -1,5 +1,7 @@
 version: 2
+
 jobs:
+
   build:
     docker:
       - image: circleci/buildpack-deps:stable
@@ -7,3 +9,15 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: ./build.sh
+
+  deploy:
+    docker:
+      - image: circleci/buildpack-deps:stable
+    branches:
+      only:
+        - master
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: ./build.sh
+      - run: ./deploy.sh
