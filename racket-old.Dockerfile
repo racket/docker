@@ -1,5 +1,6 @@
-FROM buildpack-deps:stable
-MAINTAINER Jack Firth <jackhfirth@gmail.com>
+ARG BASE_IMAGE
+
+FROM ${BASE_IMAGE}
 
 ARG RACKET_INSTALLER_URL
 ARG RACKET_VERSION

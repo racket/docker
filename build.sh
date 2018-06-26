@@ -2,16 +2,16 @@
 
 set -euxfo pipefail;
 
-build_template () {
-  declare -r dockerfile="${1}.Dockerfile";
-  declare -r tag="jackfirth/racket:${2}";
-  declare -r installer_arg="RACKET_INSTALLER_URL=${3}";
-  declare -r version_arg="RACKET_VERSION=${4}";
+build () {
+  declare -r dockerfile_name="${1}";
+  declare -r base_image="${2}";
+  declare -r installer_url="${3}";
+  declare -r version="${4}";
   docker image build \
-      -f "${dockerfile}" \
-      -t "${tag}" \
-      --build-arg "${installer_arg}" \
-      --build-arg "${version_arg}" \
+      --file "${dockerfile_name}.Dockerfile" \
+      --tag "jackfirth/racket:${version}" \
+      --build-arg "RACKET_INSTALLER_URL=${installer_url}" \
+      --build-arg "RACKET_VERSION=${version}" \
       .;
 };
 
@@ -21,35 +21,25 @@ installer_url () {
   echo "http://mirror.racket-lang.org/installers/${version}/${installer_path}";
 };
 
-build_6x () {
+build_6x_stable () {
   declare -r version="${1}";
-  declare -r installer_path="racket-minimal-${version}-x86_64-linux.sh";
+  declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
   declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-  declare -r plain_tag="${version}";
-  declare -r onbuild_tag="${version}-onbuild";
-  declare -r onbuild_test_tag="${version}-onbuild-test";
-  build_template "racket" "${plain_tag}" "${installer}" "${version}";
-  build_template "racket-onbuild" "${onbuild_tag}" "${installer}" "${version}";
-  build_template "racket-onbuild-test" "${onbuild_test_tag}" "${installer}" "${version}";
+  build "racket" "buildpack-deps:stable" "${installer}" "${version}";
 };
 
-build_6x_debian () {
+build_6x_squeeze () {
   declare -r version="${1}";
-  declare -r installer_path="racket-minimal-${version}-x86_64-linux-debian-squeeze.sh";
+  declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg-debian-squeeze.sh";
   declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-  declare -r plain_tag="${version}";
-  declare -r onbuild_tag="${version}-onbuild";
-  declare -r onbuild_test_tag="${version}-onbuild-test";
-  build_template "racket" "${version}" "${installer}" "${version}";
-  build_template "racket-onbuild" "${onbuild_tag}" "${installer}" "${version}";
-  build_template "racket-onbuild-test" "${onbuild_test_tag}" "${installer}" "${version}";
+  build "racket" "buildpack-deps:squeeze" "${installer}" "${version}";
 };
 
-build_5x () {
+build_5x_squeeze () {
   declare -r version="${1}";
   declare -r installer_path="racket-textual/racket-textual-${version}-bin-x86_64-linux-debian-squeeze.sh";
   declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-  build_template "racket-old" "${version}" "${installer}" "${version}";
+  build "racket-old" "buildpack-deps:squeeze" "${installer}" "${version}";
 };
 
 foreach () {
@@ -60,6 +50,6 @@ foreach () {
   done;
 };
 
-foreach build_6x "6.12" "6.11" "6.10.1" "6.10" "6.9" "6.8" "6.7" "6.6" "6.5";
-foreach build_6x_debian "6.4" "6.3" "6.2.1" "6.2" "6.1.1" "6.1" "6.0.1" "6.0";
-foreach build_5x "5.3.6" "5.3.5" "5.3.4" "5.3.3" "5.3.2" "5.3.1" "5.3" "5.2.1" "5.2" "5.1.3" "5.1.2";
+foreach build_6x_stable "6.12" "6.11" "6.10.1" "6.10" "6.9" "6.8" "6.7" "6.6" "6.5";
+foreach build_6x_squeeze "6.4" "6.3" "6.2.1" "6.2" "6.1.1" "6.1" "6.0.1" "6.0";
+foreach build_5x_squeeze "5.3.6" "5.3.5" "5.3.4" "5.3.3" "5.3.2" "5.3.1" "5.3" "5.2.1" "5.2" "5.1.3" "5.1.2";
