@@ -6,7 +6,7 @@ test-image () {
   declare -r version="${1}";
   declare -r image="jackfirth/racket:${version}";
   docker container run -it "${image}" racket -e "(+ 1 2 3)";
-  docker container run -it "${image}" raco pkg install --auto typed-racket;
+  docker container run -it "${image}" raco pkg install --auto rackunit-lib;
 };
 
 foreach () {
