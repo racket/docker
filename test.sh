@@ -7,8 +7,8 @@ test-image () {
   declare -r image="jackfirth/racket:${version}";
   declare -r eval_test_command="racket -e \"(+ 1 2 3)\"";
   declare -r pkg_test_command="raco pkg install --auto rackunit-lib";
-  docker container run -it "${image}" ${eval-test-command};
-  docker container run -it "${image}" ${pkg-test-command};
+  docker container run -it "${image}" ${eval_test_command};
+  docker container run -it "${image}" ${pkg_test_command};
 };
 
 foreach () {
