@@ -8,6 +8,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: ./build.sh
+      - run: ./test.sh
   build-and-deploy:
     docker:
       - image: circleci/buildpack-deps:stable
@@ -15,6 +16,7 @@ jobs:
       - checkout
       - setup_remote_docker
       - run: ./build.sh
+      - run: ./test.sh
       - run: ./login.sh
       - run: ./deploy.sh
 
