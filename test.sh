@@ -5,7 +5,7 @@ set -euxfo pipefail;
 test-image () {
   declare -r version="${1}";
   declare -r image="jackfirth/racket:${version}";
-  declare -r eval-test-command="racket -e (+ 1 2 3)";
+  declare -r eval-test-command="racket -e \"(+ 1 2 3)\"";
   declare -r pkg-test-command="raco pkg install --auto rackunit-lib";
   docker container run -it "${image}" ${eval-test-command};
   docker container run -it "${image}" ${pkg-test-command};
