@@ -3,7 +3,7 @@
 set -euxfo pipefail;
 
 declare -r RUN_INSTALLER_WITH_FLAGS="sh racket-install.sh --create-dir --unix-style";
-declare -r RUN_INSTALLER_WITH_ECHO="echo yes\\n1\\n | sh racket-install.sh";
+declare -r RUN_INSTALLER_WITH_ECHO="echo 'yes\\n1\\n' | sh racket-install.sh";
 
 build () {
   declare -r dockerfile_name="${1}";
