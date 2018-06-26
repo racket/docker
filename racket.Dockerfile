@@ -7,7 +7,7 @@ ARG RACKET_VERSION
 ARG RUN_INSTALLER_COMMAND
 
 RUN wget --output-document=racket-install.sh -q ${RACKET_INSTALLER_URL} && \
-    echo "yes\n1\n" | sh racket-install.sh --create-dir --unix-style && \
+    echo "yes\n1\n" | sh racket-install.sh --create-dir --unix-style --dest /usr/ && \
     rm racket-install.sh
 
 ENV SSL_CERT_FILE="/usr/lib/ssl/cert.pem"
