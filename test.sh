@@ -5,10 +5,8 @@ set -euxfo pipefail;
 test-image () {
   declare -r version="${1}";
   declare -r image="jackfirth/racket:${version}";
-  declare -r eval_test_command="racket -e \"(+ 1 2 3)\"";
-  declare -r pkg_test_command="raco pkg install --auto rackunit-lib";
-  docker container run -it "${image}" ${eval_test_command};
-  docker container run -it "${image}" ${pkg_test_command};
+  docker container run -it "${image}" racket -e "(+ 1 2 3)";
+  docker container run -it "${image}" raco pkg install --auto rackunit-lib;
 };
 
 foreach () {
