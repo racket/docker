@@ -6,7 +6,7 @@ test-image () {
   declare -r version="${1}";
   declare -r image="jackfirth/racket:${version}";
   docker container run -it "${image}" racket -e "(+ 1 2 3)";
-  docker container run -it "${image}" raco pkg install --auto rackunit-lib;
+  docker container run -it "${image}" raco pkg install --auto typed-racket;
 };
 
 foreach () {
@@ -32,17 +32,4 @@ foreach test-image \
     "6.2.1" \
     "6.2" \
     "6.1.1" \
-    "6.1" \
-    "6.0.1" \
-    "6.0" \
-    "5.3.6" \
-    "5.3.5" \
-    "5.3.4" \
-    "5.3.3" \
-    "5.3.2" \
-    "5.3.1" \
-    "5.3" \
-    "5.2.1" \
-    "5.2" \
-    "5.1.3" \
-    "5.1.2";
+    "6.1";

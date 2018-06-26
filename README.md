@@ -12,5 +12,4 @@ DrRacket or Scribble. This also means many `raco` commands such as `raco make`
 will be missing; install the `compiler-lib` package to get most of the standard
 `raco` commands.
 
-Versions: All 6.x versions and 5.1.2 - 5.3.6 (5.9.x versions have installer
-issues on debian)
+Versions: 6.1 and above
