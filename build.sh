@@ -3,7 +3,7 @@
 set -euxfo pipefail;
 
 declare -r RUN_INSTALLER_WITH_FLAGS="sh racket-install.sh --create-dir --unix-style";
-declare -r RUN_INSTALLER_WITH_ECHO="echo 'yes\\n1\\n' | sh racket-install.sh";
+declare -r RUN_INSTALLER_WITH_ECHO="echo \"yes\\n1\\n\" | sh racket-install.sh";
 
 build () {
   declare -r dockerfile_name="${1}";
@@ -70,8 +70,8 @@ foreach () {
   done;
 };
 
-foreach build_6x_stable_natipkg "6.12" "6.11" "6.10.1" "6.10" "6.9" "6.8" "6.7" "6.6" "6.5";
-foreach build_6x_squeeze_natipkg "6.4" "6.3" "6.2.1" "6.2" "6.1.1";
-foreach build_6x_squeeze_ospkg "6.1";
 foreach build_6x_squeeze_ospkg_echoinstall "6.0.1" "6.0";
 foreach build_5x_squeeze_ospkg_echoinstall "5.3.6" "5.3.5" "5.3.4" "5.3.3" "5.3.2" "5.3.1" "5.3" "5.2.1" "5.2" "5.1.3" "5.1.2";
+foreach build_6x_squeeze_ospkg "6.1";
+foreach build_6x_stable_natipkg "6.12" "6.11" "6.10.1" "6.10" "6.9" "6.8" "6.7" "6.6" "6.5";
+foreach build_6x_squeeze_natipkg "6.4" "6.3" "6.2.1" "6.2" "6.1.1";
