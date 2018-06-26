@@ -10,6 +10,7 @@ build () {
   docker image build \
       --file "${dockerfile_name}.Dockerfile" \
       --tag "jackfirth/racket:${version}" \
+      --build-arg "BASE_IMAGE=${base_image}" \
       --build-arg "RACKET_INSTALLER_URL=${installer_url}" \
       --build-arg "RACKET_VERSION=${version}" \
       .;
