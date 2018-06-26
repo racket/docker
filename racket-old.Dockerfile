@@ -5,7 +5,7 @@ FROM ${BASE_IMAGE}
 ARG RACKET_INSTALLER_URL
 ARG RACKET_VERSION
 
-RUN wget --output-document=racket-install.sh -q $RACKET_INSTALLER_URL && \
+RUN wget --output-document=racket-install.sh -q ${RACKET_INSTALLER_URL} && \
     sh racket-install.sh --create-dir --unix-style && \
     rm racket-install.sh
 
