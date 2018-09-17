@@ -2,7 +2,7 @@
 
 set -euxfo pipefail;
 
-declare -r LATEST_RACKET_VERSION="6.12";
+declare -r LATEST_RACKET_VERSION="7.0";
 
 docker image tag "jackfirth/racket:${LATEST_RACKET_VERSION}" "jackfirth/racket:latest";
 
@@ -21,6 +21,7 @@ foreach () {
 
 foreach push \
     "latest" \
+    "7.0" \
     "6.12" \
     "6.11" \
     "6.10.1" \
