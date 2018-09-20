@@ -22,7 +22,7 @@ installer_url () {
   echo "http://mirror.racket-lang.org/installers/${version}/${installer_path}";
 };
 
-build_6x () {
+build_6x_7x () {
   declare -r version="${1}";
   declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
   declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
@@ -51,6 +51,6 @@ foreach () {
   done;
 };
 
-foreach build_6x "6.12" "6.11" "6.10.1" "6.10" "6.9" "6.8" "6.7" "6.6" "6.5";
+foreach build_6x_7x "7.0" "6.12" "6.11" "6.10.1" "6.10" "6.9" "6.8" "6.7" "6.6" "6.5";
 foreach build_6x_old "6.4" "6.3" "6.2.1" "6.2" "6.1.1";
 foreach build_6x_old_ospkg "6.1" "6.0.1" "6.0";
