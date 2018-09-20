@@ -18,6 +18,7 @@ foreach () {
 };
 
 foreach test-image \
+    "7.0" \
     "6.12" \
     "6.11" \
     "6.10.1" \
