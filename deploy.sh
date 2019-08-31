@@ -6,7 +6,7 @@ source "_common.sh";
 
 declare -r LATEST_RACKET_VERSION="7.4";
 
-docker image tag "jackfirth/racket:${LATEST_RACKET_VERSION}" "jackfirth/racket:latest";
+docker image tag "${USERNAME}/racket:${LATEST_RACKET_VERSION}" "${USERNAME}/racket:latest";
 
 push () {
   declare -r image="${1}";

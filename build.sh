@@ -2,6 +2,8 @@
 
 set -euxfo pipefail;
 
+source "_common.sh";
+
 build () {
   declare -r dockerfile_name="${1}";
   declare -r base_image="${2}";
@@ -9,7 +11,7 @@ build () {
   declare -r version="${4}";
   declare -r variant="${5}";
 
-  declare tag="jackfirth/racket:${version}"
+  declare tag="${USERNAME}/racket:${version}"
   case "${variant}" in
       "-minimal") ;;
 
