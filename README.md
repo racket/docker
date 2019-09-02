@@ -14,6 +14,15 @@ will be missing; install the `compiler-lib` package to get most of the standard
 
 Versions: 6.1 and above
 
+#### "Full" images
+
+Base: `buildpack-deps`
+
+CMD: `racket`
+
+These images, tagged with `-full` at the end, use the full Racket
+distribution.
+
 ## Building the images
 
 To build the images locally, run
