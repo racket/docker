@@ -23,6 +23,17 @@ CMD: `racket`
 These images, tagged with `-full` at the end, use the full Racket
 distribution.
 
+#### Racket-on-ChezScheme images
+
+Base: `buildpack-deps`
+
+CMD: `racket`
+
+These images, tagged with `-cs` and `-cs-full` at the end, use the
+`minimal-install` and the full install of Racket-on-Chez,
+respectively.
+
+
 ## Building the images
 
 To build the images locally, run
