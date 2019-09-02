@@ -11,5 +11,5 @@ test-image () {
 };
 
 for image in $(find_images); do
-    test-image "${image}";
+  test-image "${image}";
 done
