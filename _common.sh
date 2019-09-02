@@ -2,8 +2,10 @@
 
 set -euxfo pipefail;
 
-USERNAME="${DOCKER_USERNAME:-jackfirth}"
+USERNAME="${DOCKER_USERNAME}"
 
 find_images () {
-    docker images --format '{{.Repository}}:{{.Tag}}' | grep "^${USERNAME}/racket:[[:digit:]]" | sort
+    docker images --format '{{.Repository}}:{{.Tag}}' | \
+        grep "^${USERNAME}/racket:[[:digit:]]" | \
+        sort;
 }
