@@ -9,19 +9,7 @@ build () {
   declare -r base_image="${2}";
   declare -r installer_url="${3}";
   declare -r version="${4}";
-  declare -r variant="${5}";
-
-  declare tag="${USERNAME}/racket:${version}"
-  case "${variant}" in
-      "-minimal") ;;
-
-      "") tag="${tag}-full"
-          ;;
-
-      *) echo "error: unexpected variant '${variant}'"
-         exit 1
-         ;;
-  esac
+  declare -r tag="${5}";
 
   docker image build \
       --file "${dockerfile_name}.Dockerfile" \
@@ -40,11 +28,16 @@ installer_url () {
 
 build_6x_7x () {
   declare -r version="${1}";
-  for variant in "" "-minimal"; do
-      installer_path="racket${variant}-${version}-x86_64-linux-natipkg.sh";
-      installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-      build "racket" "buildpack-deps:stable" "${installer}" "${version}" "${variant}";
-  done
+  declare installer_path;
+  declare installer;
+
+  installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
+  installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
+  build "racket" "buildpack-deps:stable" "${installer}" "${version}" "${USERNAME}/racket:${version}";
+
+  installer_path="racket-${version}-x86_64-linux-natipkg.sh";
+  installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
+  build "racket" "buildpack-deps:stable" "${installer}" "${version}" "${USERNAME}/racket:${version}-full";
 };
 
 build_6x_old () {
