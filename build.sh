@@ -33,13 +33,13 @@ build_6x_7x () {
   declare installer_path;
   declare installer;
 
-  installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
-  installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
+  declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
+  declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
   build "racket" "buildpack-deps:stable" "${installer}" "${version}" "${USERNAME}/racket:${version}";
 
-  installer_path="racket-${version}-x86_64-linux-natipkg.sh";
-  installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-  build "racket" "buildpack-deps:stable" "${installer}" "${version}" "${USERNAME}/racket:${version}-full";
+  declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg.sh";
+  declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
+  build "racket" "buildpack-deps:stable" "${full_installer}" "${version}" "${USERNAME}/racket:${version}-full";
 };
 
 build_6x_old () {
