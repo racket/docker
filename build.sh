@@ -30,8 +30,6 @@ installer_url () {
 
 build_6x_7x () {
   declare -r version="${1}";
-  declare installer_path;
-  declare installer;
 
   declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
   declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
@@ -44,16 +42,26 @@ build_6x_7x () {
 
 build_6x_old () {
   declare -r version="${1}";
+
   declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg-debian-squeeze.sh";
   declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-  build "racket" "buildpack-deps:wheezy" "${installer}" "${version}";
+  build "racket" "buildpack-deps:wheezy" "${installer}" "${version}" "${USERNAME}/racket:${version}";
+
+  declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg-debian-squeeze.sh";
+  declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
+  build "racket" "buildpack-deps:wheezy" "${full_installer}" "${version}" "${USERNAME}/racket:${version}-full";
 };
 
 build_6x_old_ospkg () {
   declare -r version="${1}";
+
   declare -r installer_path="racket-minimal-${version}-x86_64-linux-debian-squeeze.sh";
   declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-  build "racket" "buildpack-deps:wheezy" "${installer}" "${version}";
+  build "racket" "buildpack-deps:wheezy" "${installer}" "${version}" "${USERNAME}/racket:${version}";
+
+  declare -r full_installer_path="racket-${version}-x86_64-linux-debian-squeeze.sh";
+  declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
+  build "racket" "buildpack-deps:wheezy" "${full_installer}" "${version}" "${USERNAME}/racket:${version}-full";
 };
 
 foreach () {
