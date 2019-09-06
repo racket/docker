@@ -14,3 +14,11 @@ find_images () {
         grep "^${USERNAME}/racket:[[:digit:]]" | \
         sort;
 }
+
+find_testable_images () {
+    # Version 6.0 is ignored during test runs because its openssl
+    # bindings are broken.
+    #
+    # xref: https://github.com/jackfirth/racket-docker/issues/35
+    find_images | grep --invert-match "racket:6.0"
+}
