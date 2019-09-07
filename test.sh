@@ -10,6 +10,6 @@ test-image () {
   docker container run -it "${image}" raco pkg install --auto nevermore;
 };
 
-for image in $(find_images); do
+for image in $(find_testable_images); do
   test-image "${image}";
 done
