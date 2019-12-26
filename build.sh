@@ -4,8 +4,6 @@ set -euxfo pipefail;
 
 source "_common.sh";
 
-declare -r LATEST_RACKET_VERSION="7.4";
-
 build () {
   declare -r dockerfile_name="${1}";
   declare -r base_image="${2}";
@@ -91,6 +89,8 @@ foreach () {
     "${command}" "${_arg}";
   done;
 };
+
+declare -r LATEST_RACKET_VERSION="7.5";
 
 foreach build_7x "7.4" "7.5";
 foreach build_6x_7x_old "7.3" "7.2" "7.1" "7.0" "6.12" "6.11" "6.10.1" "6.10" "6.9" "6.8" "6.7" "6.6" "6.5";
