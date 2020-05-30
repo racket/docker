@@ -4,8 +4,6 @@ jobs:
   build:
     docker:
       - image: circleci/buildpack-deps:stable
-    environment:
-      DOCKER_USERNAME: jackfirth
     steps:
       - checkout
       - setup_remote_docker
@@ -14,8 +12,6 @@ jobs:
   build-and-deploy:
     docker:
       - image: circleci/buildpack-deps:stable
-    environment:
-      DOCKER_USERNAME: jackfirth
     steps:
       - checkout
       - setup_remote_docker

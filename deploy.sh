@@ -9,6 +9,10 @@ push () {
   docker image push "${image}";
 };
 
-for image in $(find_images); do
+for image in $(find_images "${DOCKER_REPOSITORY}"); do
+  push "${image}";
+done
+
+for image in $(find_images "${SECONDARY_DOCKER_REPOSITORY}"); do
   push "${image}";
 done
