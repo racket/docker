@@ -94,9 +94,9 @@ foreach () {
   done;
 };
 
-declare -r LATEST_RACKET_VERSION="7.8";
+declare -r LATEST_RACKET_VERSION="7.9";
 
-foreach build_7x "7.4" "7.5" "7.6" "7.7" "7.8";
+foreach build_7x "7.4" "7.5" "7.6" "7.7" "7.8" "7.9";
 foreach build_6x_7x_old "7.3" "7.2" "7.1" "7.0" "6.12" "6.11" "6.10.1" "6.10" "6.9" "6.8" "6.7" "6.6" "6.5";
 foreach build_6x_old "6.4" "6.3" "6.2.1" "6.2" "6.1.1";
 foreach build_6x_old_ospkg "6.1" "6.0.1" "6.0";
