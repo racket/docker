@@ -30,6 +30,26 @@ installer_url () {
   echo "http://mirror.racket-lang.org/installers/${version}/${installer_path}";
 };
 
+build_8x () {
+  declare -r version="${1}";
+
+  declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
+  declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
+  build "racket" "buildpack-deps:stable" "${installer}" "${version}" "${version}";
+
+  declare -r bc_installer_path="racket-minimal-${version}-x86_64-linux-bc.sh";
+  declare -r bc_installer=$(installer_url "${version}" "${bc_installer_path}") || exit "${?}";
+  build "racket" "buildpack-deps:stable" "${bc_installer}" "${version}" "${version}-bc";
+
+  declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg.sh";
+  declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
+  build "racket" "buildpack-deps:stable" "${full_installer}" "${version}" "${version}-full";
+
+  declare -r full_bc_installer_path="racket-${version}-x86_64-linux-bc.sh";
+  declare -r full_bc_installer=$(installer_url "${version}" "${full_bc_installer_path}") || exit "${?}";
+  build "racket" "buildpack-deps:stable" "${full_bc_installer}" "${version}" "${version}-bc-full";
+};
+
 build_7x () {
   declare -r version="${1}";
 
@@ -94,8 +114,9 @@ foreach () {
   done;
 };
 
-declare -r LATEST_RACKET_VERSION="7.9";
+declare -r LATEST_RACKET_VERSION="8.0";
 
+foreach build_8x "8.0";
 foreach build_7x "7.4" "7.5" "7.6" "7.7" "7.8" "7.9";
 foreach build_6x_7x_old "7.3" "7.2" "7.1" "7.0" "6.12" "6.11" "6.10.1" "6.10" "6.9" "6.8" "6.7" "6.6" "6.5";
 foreach build_6x_old "6.4" "6.3" "6.2.1" "6.2" "6.1.1";

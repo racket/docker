@@ -1,8 +1,8 @@
 # racket-docker [![Circle CI](https://circleci.com/gh/jackfirth/racket-docker.svg?style=svg)](https://circleci.com/gh/jackfirth/racket-docker)
-Docker images for various Racket versions available on DockerHub as [`racket/racket:<version>`](https://hub.docker.com/r/racket/racket/). For example, to run a Racket 7.9 REPL:
+Docker images for various Racket versions available on DockerHub as [`racket/racket:<version>`](https://hub.docker.com/r/racket/racket/). For example, to run a Racket 8.0 REPL:
 
 ```
-$ docker run -it racket/racket:7.9
+$ docker run -it racket/racket:8.0
 ```
 
 #### Normal images
@@ -15,7 +15,7 @@ These images use the `minimal-install` of Racket to avoid pulling in things like
 DrRacket or Scribble. This also means many `raco` commands such as `raco make`
 will be missing; install the `compiler-lib` package to get most of the standard
 `raco` commands. Alternatively, use the "full" images instead such as
-`racket/racket:7.9-full`.
+`racket/racket:8.0-full`.
 
 Versions: 6.1 and above. Racket CS images are available for 7.4 and above.
 
@@ -27,16 +27,28 @@ CMD: `racket`
 
 These images, tagged with `-full` at the end, use the full Racket distribution.
 
-#### Racket-on-ChezScheme images
+#### Racket on Chez (CS) images
 
 Base: `buildpack-deps`
 
 CMD: `racket`
 
-These images, tagged with `-cs` and `-cs-full` at the end, use the
-`minimal-install` and the full install of Racket-on-Chez,
-respectively. For example, `racket/racket:7.9-cs-full` is the non-minimal Racket
-CS 7.9 variant.
+As of Racket 8.0, CS is the default variant of Racket so the regular
+images (such as `racket/racket:8.0` or `racket/racket:8.0-full`) are
+now based on CS.
+
+Racket CS images for versions prior to 8.0 are tagged as `-cs` and
+`-cs-full`, respectively.  For example, `racket/racket:7.9-cs-full` is
+the full distribution of the CS variant of Racket 7.9.
+
+#### Racket before Chez (BC) images
+
+As of the 8.0 release, Racket BC images are tagged with `-bc` and
+`-bc-full`.  For example, `racket/racket:8.0-bc-full` is the full
+distribution of the BC variant of Racket 8.0, whereas
+`racket/racket:7.9-full` is the full distribution of the BC variant of
+Racket 7.9 (before CS was made the default).
+
 
 ## Local development
 
