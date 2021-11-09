@@ -1,8 +1,8 @@
 # racket-docker [![Circle CI](https://circleci.com/gh/jackfirth/racket-docker.svg?style=svg)](https://circleci.com/gh/jackfirth/racket-docker)
-Docker images for various Racket versions available on DockerHub as [`racket/racket:<version>`](https://hub.docker.com/r/racket/racket/). For example, to run a Racket 8.2 REPL:
+Docker images for various Racket versions available on DockerHub as [`racket/racket:<version>`](https://hub.docker.com/r/racket/racket/). For example, to run a Racket 8.3 REPL:
 
 ```
-$ docker run -it racket/racket:8.2
+$ docker run -it racket/racket:8.3
 ```
 
 #### Normal images
@@ -15,7 +15,7 @@ These images use the `minimal-install` of Racket to avoid pulling in things like
 DrRacket or Scribble. This also means many `raco` commands such as `raco make`
 will be missing; install the `compiler-lib` package to get most of the standard
 `raco` commands. Alternatively, use the "full" images instead such as
-`racket/racket:8.2-full`.
+`racket/racket:8.3-full`.
 
 Versions: 6.1 and above. Racket CS images are available for 7.4 and above.
 
