@@ -22,8 +22,8 @@ jobs:
       run: ./login.sh
       if: ${{ github.ref == 'refs/heads/master' }}
       env:
-        DOCKER_USER_USERNAME: ${{ github.secrets.DOCKER_USER_USERNAME }}
-        DOCKER_USER_PASSWORD: ${{ github.secrets.DOCKER_USER_PASSWORD }}
+        DOCKER_USER_USERNAME: ${{ secrets.DOCKER_USER_USERNAME }}
+        DOCKER_USER_PASSWORD: ${{ secrets.DOCKER_USER_PASSWORD }}
 
     - name: Deploy
       run: ./deploy.sh
