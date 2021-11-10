@@ -98,16 +98,16 @@ foreach () {
 declare -r LATEST_RACKET_VERSION="8.3";
 
 build_all_8x () {
-    foreach build_8x "8.0" "8.1" "8.2" "8.3";
+  foreach build_8x "8.0" "8.1" "8.2" "8.3";
 }
 
 build_all_7x () {
-    foreach build_6x_7x_old "7.0" "7.1" "7.3";
-    foreach build_7x "7.4" "7.5" "7.6" "7.7" "7.8" "7.9";
+  foreach build_6x_7x_old "7.0" "7.1" "7.3";
+  foreach build_7x "7.4" "7.5" "7.6" "7.7" "7.8" "7.9";
 }
 
 build_all_6x () {
-    foreach build_6x_7x_old "6.5" "6.6" "6.7" "6.8" "6.9" "6.10" "6.10.1" "6.11" "6.12";
+  foreach build_6x_7x_old "6.5" "6.6" "6.7" "6.8" "6.9" "6.10" "6.10.1" "6.11" "6.12";
 }
 
 build_base;
@@ -130,7 +130,9 @@ esac
 
 tag_latest () {
   declare -r repository="${1}";
-  docker image tag "${repository}:${LATEST_RACKET_VERSION}" "${repository}:latest";
+  if docker image ls | grep "${repository}:${LATEST_RACKET_VERSION}"; then
+    docker image tag "${repository}:${LATEST_RACKET_VERSION}" "${repository}:latest";
+  fi
 };
 
 tag_latest "${DOCKER_REPOSITORY}";
