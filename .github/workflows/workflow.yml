@@ -17,3 +17,14 @@ jobs:
 
     - name: Test
       run: ./test.sh
+
+    - name: Login
+      run: ./login.sh
+      if: ${{ github.ref == 'refs/heads/master' }}
+      env:
+        DOCKER_USER_USERNAME: ${{ github.secrets.DOCKER_USER_USERNAME }}
+        DOCKER_USER_PASSWORD: ${{ github.secrets.DOCKER_USER_PASSWORD }}
+
+    - name: Deploy
+      run: ./deploy.sh
+      if: ${{ github.ref == 'refs/heads/master' }}
