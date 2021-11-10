@@ -2,13 +2,23 @@
 
 set -euxfo pipefail;
 
+case "${1:-x}" in
+  8x) declare -r series="8x" ;;
+  7x) declare -r series="7x" ;;
+  6x) declare -r series="6x" ;;
+
+  *) echo "usage: $0 [6x|7x|8x]"
+     exit 1
+     ;;
+esac
+
 source "_common.sh";
 
 build_base () {
-    docker image build \
-           --file "base.Dockerfile" \
-           --tag "base" \
-           .;
+  docker image build \
+         --file "base.Dockerfile" \
+         --tag "base" \
+         .;
 }
 
 build () {
@@ -97,8 +107,15 @@ foreach () {
 
 declare -r LATEST_RACKET_VERSION="8.3";
 
+tag_latest () {
+  declare -r repository="${1}";
+  docker image tag "${repository}:${LATEST_RACKET_VERSION}" "${repository}:latest";
+};
+
 build_all_8x () {
   foreach build_8x "8.0" "8.1" "8.2" "8.3";
+  tag_latest "${DOCKER_REPOSITORY}";
+  tag_latest "${SECONDARY_DOCKER_REPOSITORY}";
 }
 
 build_all_7x () {
@@ -112,28 +129,8 @@ build_all_6x () {
 
 build_base;
 
-case "$1" in
-    8x) build_all_8x
-        ;;
-
-    7x) build_all_7x
-        ;;
-
-    6x) build_all_6x
-        ;;
-
-    *) build_all_8x
-       build_all_7x
-       build_all_6x
-       ;;
+case "$series" in
+  8x) build_all_8x ;;
+  7x) build_all_7x ;;
+  6x) build_all_6x ;;
 esac
-
-tag_latest () {
-  declare -r repository="${1}";
-  if docker image ls | grep "${repository}:${LATEST_RACKET_VERSION}"; then
-    docker image tag "${repository}:${LATEST_RACKET_VERSION}" "${repository}:latest";
-  fi
-};
-
-tag_latest "${DOCKER_REPOSITORY}";
-tag_latest "${SECONDARY_DOCKER_REPOSITORY}";
