@@ -32,7 +32,7 @@ build () {
 installer_url () {
   declare -r version="${1}";
   declare -r installer_path="${2}";
-  echo "http://mirror.racket-lang.org/installers/${version}/${installer_path}";
+  echo "https://download.racket-lang.org/installers/${version}/${installer_path}";
 };
 
 build_8x () {
