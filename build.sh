@@ -4,19 +4,24 @@ set -euxfo pipefail;
 
 source "_common.sh";
 
+build_base () {
+    docker image build \
+           --file "base.Dockerfile" \
+           --tag "racket-base" \
+           .;
+}
+
 build () {
   declare -r dockerfile_name="${1}";
-  declare -r base_image="${2}";
-  declare -r installer_url="${3}";
-  declare -r version="${4}";
-  declare -r image_name="${5}";
+  declare -r installer_url="${2}";
+  declare -r version="${3}";
+  declare -r image_name="${4}";
   declare -r tag="${DOCKER_REPOSITORY}:${image_name}";
   declare -r secondary_tag="${SECONDARY_DOCKER_REPOSITORY}:${image_name}";
 
   docker image build \
       --file "${dockerfile_name}.Dockerfile" \
       --tag "${DOCKER_REPOSITORY}:${image_name}" \
-      --build-arg "BASE_IMAGE=${base_image}" \
       --build-arg "RACKET_INSTALLER_URL=${installer_url}" \
       --build-arg "RACKET_VERSION=${version}" \
       .;
@@ -35,19 +40,19 @@ build_8x () {
 
   declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
   declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-  build "racket" "debian:stable-slim" "${installer}" "${version}" "${version}";
+  build "racket" "${installer}" "${version}" "${version}";
 
   declare -r bc_installer_path="racket-minimal-${version}-x86_64-linux-bc.sh";
   declare -r bc_installer=$(installer_url "${version}" "${bc_installer_path}") || exit "${?}";
-  build "racket" "debian:stable-slim" "${bc_installer}" "${version}" "${version}-bc";
+  build "racket" "${bc_installer}" "${version}" "${version}-bc";
 
   declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg.sh";
   declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
-  build "racket" "debian:stable-slim" "${full_installer}" "${version}" "${version}-full";
+  build "racket" "${full_installer}" "${version}" "${version}-full";
 
   declare -r full_bc_installer_path="racket-${version}-x86_64-linux-bc.sh";
   declare -r full_bc_installer=$(installer_url "${version}" "${full_bc_installer_path}") || exit "${?}";
-  build "racket" "debian:stable-slim" "${full_bc_installer}" "${version}" "${version}-bc-full";
+  build "racket" "${full_bc_installer}" "${version}" "${version}-bc-full";
 };
 
 build_7x () {
@@ -55,19 +60,19 @@ build_7x () {
 
   declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
   declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-  build "racket" "debian:stable-slim" "${installer}" "${version}" "${version}";
+  build "racket" "${installer}" "${version}" "${version}";
 
   declare -r cs_installer_path="racket-minimal-${version}-x86_64-linux-natipkg-cs.sh";
   declare -r cs_installer=$(installer_url "${version}" "${cs_installer_path}") || exit "${?}";
-  build "racket" "debian:stable-slim" "${cs_installer}" "${version}" "${version}-cs";
+  build "racket" "${cs_installer}" "${version}" "${version}-cs";
 
   declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg.sh";
   declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
-  build "racket" "debian:stable-slim" "${full_installer}" "${version}" "${version}-full";
+  build "racket" "${full_installer}" "${version}" "${version}-full";
 
   declare -r full_cs_installer_path="racket-${version}-x86_64-linux-natipkg-cs.sh";
   declare -r full_cs_installer=$(installer_url "${version}" "${full_cs_installer_path}") || exit "${?}";
-  build "racket" "debian:stable-slim" "${full_cs_installer}" "${version}" "${version}-cs-full";
+  build "racket" "${full_cs_installer}" "${version}" "${version}-cs-full";
 };
 
 foreach () {
@@ -80,6 +85,7 @@ foreach () {
 
 declare -r LATEST_RACKET_VERSION="8.3";
 
+build_base;
 foreach build_8x "8.0" "8.1" "8.2" "8.3";
 foreach build_7x "7.4" "7.5" "7.6" "7.7" "7.8" "7.9";
 

@@ -1,13 +1,7 @@
-ARG BASE_IMAGE
-
-FROM ${BASE_IMAGE}
+FROM racket-base
 
 ARG RACKET_INSTALLER_URL
 ARG RACKET_VERSION
-
-RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends ca-certificates sqlite3 \
-    && apt-get clean
 
 ADD ${RACKET_INSTALLER_URL} /racket-install.sh
 
