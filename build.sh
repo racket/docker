@@ -85,9 +85,27 @@ foreach () {
 
 declare -r LATEST_RACKET_VERSION="8.3";
 
+build_all_8x () {
+    foreach build_8x "8.0" "8.1" "8.2" "8.3";
+}
+
+build_all_7x () {
+    foreach build_7x "7.4" "7.5" "7.6" "7.7" "7.8" "7.9";
+}
+
 build_base;
-foreach build_8x "8.0" "8.1" "8.2" "8.3";
-foreach build_7x "7.4" "7.5" "7.6" "7.7" "7.8" "7.9";
+
+case "$1" in
+    8x) build_all_8x
+        ;;
+
+    7x) build_all_7x
+        ;;
+
+    *) build_all_8x
+       build_all_7x
+       ;;
+esac
 
 tag_latest () {
   declare -r repository="${1}";
