@@ -2,14 +2,18 @@ name: CI
 on: [push]
 jobs:
   build:
-    name: "Build & test images"
+    name: "Build & test images (${{ matrix.series }})"
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        series: [7x, 8x]
     steps:
     - name: Checkout
       uses: actions/checkout@master
 
     - name: Build
-      run: ./build.sh
+      run: ./build.sh ${{ matrix.series }}
 
     - name: Test
       run: ./test.sh
