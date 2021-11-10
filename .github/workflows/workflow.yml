@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        series: [7x, 8x, 6x]
+        series: [6x, 7x, 8x]
     steps:
     - name: Checkout
       uses: actions/checkout@master

@@ -3,7 +3,7 @@ FROM base
 ARG RACKET_INSTALLER_URL
 ARG RACKET_VERSION
 
-RUN curl -L "${RACKET_INSTALLER_URL}" > racket-install.sh \
+RUN curl --retry 5 -Ls "${RACKET_INSTALLER_URL}" > racket-install.sh \
     && echo "yes\n1\n" | sh racket-install.sh --create-dir --unix-style --dest /usr/ \
     && rm racket-install.sh
 
