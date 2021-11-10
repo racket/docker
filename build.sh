@@ -75,6 +75,18 @@ build_7x () {
   build "racket" "${full_cs_installer}" "${version}" "${version}-cs-full";
 };
 
+build_6x_7x_old () {
+  declare -r version="${1}";
+
+  declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
+  declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
+  build "racket" "${installer}" "${version}" "${version}";
+
+  declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg.sh";
+  declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
+  build "racket" "${full_installer}" "${version}" "${version}-full";
+};
+
 foreach () {
   declare -r command="${1}";
   declare -r args="${@:2}";
@@ -90,7 +102,12 @@ build_all_8x () {
 }
 
 build_all_7x () {
+    foreach build_6x_7x_old "7.0" "7.1" "7.3";
     foreach build_7x "7.4" "7.5" "7.6" "7.7" "7.8" "7.9";
+}
+
+build_all_6x () {
+    foreach build_6x_7x_old "6.5" "6.6" "6.7" "6.8" "6.9" "6.10" "6.10.1" "6.11" "6.12";
 }
 
 build_base;
@@ -102,8 +119,12 @@ case "$1" in
     7x) build_all_7x
         ;;
 
+    6x) build_all_6x
+        ;;
+
     *) build_all_8x
        build_all_7x
+       build_all_6x
        ;;
 esac
 
