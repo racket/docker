@@ -1,11 +1,10 @@
-FROM racket-base
+FROM base
 
 ARG RACKET_INSTALLER_URL
 ARG RACKET_VERSION
 
-ADD ${RACKET_INSTALLER_URL} /racket-install.sh
-
-RUN echo "yes\n1\n" | sh racket-install.sh --create-dir --unix-style --dest /usr/ \
+RUN curl -L "${RACKET_INSTALLER_URL}" > racket-install.sh \
+    && echo "yes\n1\n" | sh racket-install.sh --create-dir --unix-style --dest /usr/ \
     && rm racket-install.sh
 
 ENV SSL_CERT_FILE="/etc/ssl/certs/ca-certificates.crt"

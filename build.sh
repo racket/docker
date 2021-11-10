@@ -7,7 +7,7 @@ source "_common.sh";
 build_base () {
     docker image build \
            --file "base.Dockerfile" \
-           --tag "racket-base" \
+           --tag "base" \
            .;
 }
 
