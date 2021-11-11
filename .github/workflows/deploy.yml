@@ -1,0 +1,23 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: "Build, test & deploy images (${{ matrix.series }})"
+    runs-on: ubuntu-latest
+    environment: deployment
+    strategy:
+      fail-fast: false
+      matrix:
+        series: [6x, 7x, 8x]
+    steps:
+    - uses: actions/checkout@master
+    - run: ./build.sh ${{ matrix.series }}
+    - run: ./test.sh
+    - run: ./login.sh
+      env:
+        DOCKER_USER_USERNAME: ${{ secrets.DOCKER_USER_USERNAME }}
+        DOCKER_USER_PASSWORD: ${{ secrets.DOCKER_USER_PASSWORD }}
+    - run: ./deploy.sh
