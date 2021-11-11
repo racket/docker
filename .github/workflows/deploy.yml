@@ -18,6 +18,6 @@ jobs:
     - run: ./test.sh
     - run: ./login.sh
       env:
-        DOCKER_USER_USERNAME: ${{ secrets.DOCKER_USER_USERNAME }}
+        DOCKER_USER_NAME: ${{ secrets.DOCKER_USER_USERNAME }}
         DOCKER_USER_PASSWORD: ${{ secrets.DOCKER_USER_PASSWORD }}
     - run: ./deploy.sh
