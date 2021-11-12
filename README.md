@@ -1,4 +1,5 @@
-# racket-docker [![Circle CI](https://circleci.com/gh/jackfirth/racket-docker.svg?style=svg)](https://circleci.com/gh/jackfirth/racket-docker)
+# racket-docker
+
 Docker images for various Racket versions available on DockerHub as [`racket/racket:<version>`](https://hub.docker.com/r/racket/racket/). For example, to run a Racket 8.3 REPL:
 
 ```
