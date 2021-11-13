@@ -8,7 +8,7 @@ $ docker run -it racket/racket:8.3
 
 #### Normal images
 
-Base: `buildpack-deps`
+Base: `debian:stable-slim`
 
 CMD: `racket`
 
@@ -22,7 +22,7 @@ Versions: 6.1 and above. Racket CS images are available for 7.4 and above.
 
 #### "Full" images
 
-Base: `buildpack-deps`
+Base: `debian:stable-slim`
 
 CMD: `racket`
 
@@ -30,7 +30,7 @@ These images, tagged with `-full` at the end, use the full Racket distribution.
 
 #### Racket on Chez (CS) images
 
-Base: `buildpack-deps`
+Base: `debian:stable-slim`
 
 CMD: `racket`
 
