@@ -6,8 +6,9 @@ case "${1:-x}" in
   8x) declare -r series="8x" ;;
   7x) declare -r series="7x" ;;
   6x) declare -r series="6x" ;;
+  snapshot) declare -r series="snapshot" ;;
 
-  *) echo "usage: $0 [6x|7x|8x]"
+  *) echo "usage: $0 [6x|7x|8x|snapshot]"
      exit 1
      ;;
 esac
@@ -44,6 +45,22 @@ installer_url () {
   declare -r installer_path="${2}";
   echo "https://download.racket-lang.org/installers/${version}/${installer_path}";
 };
+
+build_snapshot () {
+  declare -r version="snapshot";
+
+  declare -r installer="https://www.cs.utah.edu/plt/snapshots/current/installers/racket-minimal-current-x86_64-linux-jesse.sh";
+  build "racket" "${installer}" "${version}" "${version}";
+
+  declare -r bc_installer="https://www.cs.utah.edu/plt/snapshots/current/installers/racket-minimal-current-x86_64-linux-bc.sh";
+  build "racket" "${bc_installer}" "${version}" "${version}-bc";
+
+  declare -r full_installer="https://www.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-jesse.sh";
+  build "racket" "${full_installer}" "${version}" "${version}-full";
+
+  declare -r full_bc_installer="https://www.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-bc.sh";
+  build "racket" "${full_bc_installer}" "${version}" "${version}-bc-full";
+}
 
 build_8x () {
   declare -r version="${1}";
@@ -133,4 +150,5 @@ case "$series" in
   8x) build_all_8x ;;
   7x) build_all_7x ;;
   6x) build_all_6x ;;
+  snapshot) build_snapshot ;;
 esac
