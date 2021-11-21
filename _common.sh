@@ -12,14 +12,15 @@ SECONDARY_DOCKER_REPOSITORY="jackfirth/racket";
 find_images () {
     declare -r repository="${1}";
 
-    # This image is filtered out by the grep below so we might as well
-    # add it manually rather than come up with some clever regexp.
-    echo "${repository}:latest";
-
     # Grab all of the racket images whose "tag"s start with a digit.
     docker images --format '{{.Repository}}:{{.Tag}}' | \
-        grep "^${repository}:[[:digit:]]" | \
-        sort;
+         (grep "^${repository}:[[:digit:]]" || true) | \
+         sort;
+
+    # Grab `latest` and `snapshot` images if available.
+    docker images --format '{{.Repository}}:{{.Tag}}' | \
+         (grep "^${repository}:\(latest\|snapshot\)" || true) | \
+         sort;
 }
 
 find_testable_images () {
