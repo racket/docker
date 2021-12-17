@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # no -x because that leaks password in CI logs
-set -eufo pipefail;
+set -eufo pipefail
 
 docker login \
     --password="${DOCKER_USER_PASSWORD}" \
-    --username="${DOCKER_USER_NAME}";
+    --username="${DOCKER_USER_NAME}"
