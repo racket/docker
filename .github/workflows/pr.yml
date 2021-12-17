@@ -1,6 +1,13 @@
 name: Build & Test PR
 on: [pull_request]
 jobs:
+  analyze:
+    name: "Analyze shell scripts"
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: sh-checker
+      uses: luizm/action-sh-checker@v0.3.0
   build:
     name: "Build & test images (${{ matrix.series }})"
     runs-on: ubuntu-latest

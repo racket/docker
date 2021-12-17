@@ -1,30 +1,30 @@
 #!/usr/bin/env bash
 
-set -euxfo pipefail;
+set -euxfo pipefail
 
-DOCKER_REPOSITORY="racket/racket";
+export DOCKER_REPOSITORY="racket/racket"
 
 # We used to push images to the jackfirth/racket DockerHub repo instead
 # of racket/racket. For backwards compatibility, we still push the images
 # to that repo in addition to the primary racket/racket repo.
-SECONDARY_DOCKER_REPOSITORY="jackfirth/racket";
+export SECONDARY_DOCKER_REPOSITORY="jackfirth/racket"
 
-find_images () {
-    declare -r repository="${1}";
+find_images() {
+    declare -r repository="${1}"
 
     # Grab all of the racket images whose "tag"s start with a digit.
-    docker images --format '{{.Repository}}:{{.Tag}}' | \
-         (grep "^${repository}:[[:digit:]]" || true) | \
-         sort;
+    docker images --format '{{.Repository}}:{{.Tag}}' |
+        (grep "^${repository}:[[:digit:]]" || true) |
+        sort
 
     # Grab `latest` and `snapshot` images if available.
-    docker images --format '{{.Repository}}:{{.Tag}}' | \
-         (grep "^${repository}:\(latest\|snapshot\)" || true) | \
-         sort;
+    docker images --format '{{.Repository}}:{{.Tag}}' |
+        (grep "^${repository}:\(latest\|snapshot\)" || true) |
+        sort
 }
 
-find_testable_images () {
-    declare -r repository="${1}";
+find_testable_images() {
+    declare -r repository="${1}"
 
     # Version 6.0 is ignored during test runs because its openssl
     # bindings are broken.
