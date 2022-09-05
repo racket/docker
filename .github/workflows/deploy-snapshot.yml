@@ -1,7 +1,7 @@
 name: Deploy Snapshots
 on:
   schedule:
-    - cron: "* 0/6 * * *"
+    - cron: "0 0/6 * * *"
 jobs:
   build:
     name: "Build, test & deploy snapshot images"
