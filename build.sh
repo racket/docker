@@ -49,16 +49,16 @@ installer_url () {
 build_snapshot () {
   declare -r version="snapshot";
 
-  declare -r installer="https://www.cs.utah.edu/plt/snapshots/current/installers/racket-minimal-current-x86_64-linux-jesse.sh";
+  declare -r installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-minimal-current-x86_64-linux-jesse.sh";
   build "racket" "${installer}" "${version}" "${version}";
 
-  declare -r bc_installer="https://www.cs.utah.edu/plt/snapshots/current/installers/racket-minimal-current-x86_64-linux-bc.sh";
+  declare -r bc_installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-minimal-current-x86_64-linux-bc.sh";
   build "racket" "${bc_installer}" "${version}" "${version}-bc";
 
-  declare -r full_installer="https://www.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-jesse.sh";
+  declare -r full_installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-jesse.sh";
   build "racket" "${full_installer}" "${version}" "${version}-full";
 
-  declare -r full_bc_installer="https://www.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-bc.sh";
+  declare -r full_bc_installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-bc.sh";
   build "racket" "${full_bc_installer}" "${version}" "${version}-bc-full";
 }
 
