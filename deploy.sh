@@ -6,7 +6,13 @@ source "_common.sh";
 
 push () {
   declare -r image="${1}";
-  docker image push "${image}";
+
+  # Avoid pushing images with broken SSL up to Docker Hub. Working
+  # versions of these images have already been pushed. See the note in
+  # test.sh for details.
+  if ! [[ "${image}" =~ racket:8.[0123456]-bc ]]; then
+      docker image push "${image}";
+  fi
 };
 
 for image in $(find_images "${DOCKER_REPOSITORY}"); do
