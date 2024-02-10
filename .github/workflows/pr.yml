@@ -7,7 +7,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        series: [7x, 8x, snapshot]
+        series: [7x, 8x_1, 8x_2, snapshot]
     steps:
     - uses: actions/checkout@master
     - run: ./build.sh ${{ matrix.series }}
