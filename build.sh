@@ -118,8 +118,8 @@ build_6x_7x_old () {
 
 foreach () {
   declare -r command="${1}";
-  declare -r args="${@:2}";
-  for _arg in ${args}; do
+  declare -r args=("${@:2}");
+  for _arg in "${args[@]}"; do
     "${command}" "${_arg}";
   done;
 };
