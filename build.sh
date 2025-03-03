@@ -124,7 +124,7 @@ foreach () {
   done;
 };
 
-declare -r LATEST_RACKET_VERSION="8.15";
+declare -r LATEST_RACKET_VERSION="8.16";
 
 tag_latest () {
   declare -r repository="${1}";
@@ -133,7 +133,7 @@ tag_latest () {
 
 # The 8x series is split into two to avoid running into storage limits in CI.
 build_8x_2 () {
-  foreach build_8x "8.10" "8.11" "8.11.1" "8.12" "8.13" "8.14" "8.15";
+  foreach build_8x "8.10" "8.11" "8.11.1" "8.12" "8.13" "8.14" "8.15" "8.16";
   tag_latest "${DOCKER_REPOSITORY}";
   tag_latest "${SECONDARY_DOCKER_REPOSITORY}";
 }
