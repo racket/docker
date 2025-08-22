@@ -44,11 +44,13 @@ the full distribution of the CS variant of Racket 7.9.
 
 #### Racket before Chez (BC) images
 
-As of the 8.0 release, Racket BC images are tagged with `-bc` and
-`-bc-full`.  For example, `racket/racket:8.0-bc-full` is the full
-distribution of the BC variant of Racket 8.0, whereas
+As of the 8.0 release, Racket BC images are tagged with `-bc`
+and `-bc-full`. For example, `racket/racket:8.0-bc-full` is
+the full distribution of the BC variant of Racket 8.0, whereas
 `racket/racket:7.9-full` is the full distribution of the BC variant of
 Racket 7.9 (before CS was made the default).
+
+Racket BC images are only available up to version 8.17.
 
 
 ## Local development
