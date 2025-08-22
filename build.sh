@@ -71,17 +71,22 @@ build_8x () {
   declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
   build "racket" "${installer}" "${version}" "${version}";
 
-  declare -r bc_installer_path="racket-minimal-${version}-x86_64-linux-bc.sh";
-  declare -r bc_installer=$(installer_url "${version}" "${bc_installer_path}") || exit "${?}";
-  build "racket" "${bc_installer}" "${version}" "${version}-bc";
-
   declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg.sh";
   declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
   build "racket" "${full_installer}" "${version}" "${version}-full";
 
-  declare -r full_bc_installer_path="racket-${version}-x86_64-linux-bc.sh";
-  declare -r full_bc_installer=$(installer_url "${version}" "${full_bc_installer_path}") || exit "${?}";
-  build "racket" "${full_bc_installer}" "${version}" "${version}-bc-full";
+  # Starting with 8.18, BC builds are no longer provided. The next
+  # version is likely going to be 9.0, so we only need to check for
+  # 8.18 as of this writing.
+  if [ "$version" != "8.18" ]; then
+      declare -r bc_installer_path="racket-minimal-${version}-x86_64-linux-bc.sh";
+      declare -r bc_installer=$(installer_url "${version}" "${bc_installer_path}") || exit "${?}";
+      build "racket" "${bc_installer}" "${version}" "${version}-bc";
+
+      declare -r full_bc_installer_path="racket-${version}-x86_64-linux-bc.sh";
+      declare -r full_bc_installer=$(installer_url "${version}" "${full_bc_installer_path}") || exit "${?}";
+      build "racket" "${full_bc_installer}" "${version}" "${version}-bc-full";
+  fi
 };
 
 build_7x () {
