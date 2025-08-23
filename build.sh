@@ -51,17 +51,11 @@ installer_url () {
 build_snapshot () {
   declare -r version="snapshot";
 
-  declare -r installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-minimal-current-x86_64-linux-jesse.sh";
+  declare -r installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-minimal-current-x86_64-linux-buster.sh";
   build "racket" "${installer}" "${version}" "${version}";
 
-  declare -r bc_installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-minimal-current-x86_64-linux-bc.sh";
-  build "racket" "${bc_installer}" "${version}" "${version}-bc";
-
-  declare -r full_installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-jesse.sh";
+  declare -r full_installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-buster.sh";
   build "racket" "${full_installer}" "${version}" "${version}-full";
-
-  declare -r full_bc_installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-bc.sh";
-  build "racket" "${full_bc_installer}" "${version}" "${version}-bc-full";
 }
 
 build_8x () {
@@ -71,17 +65,22 @@ build_8x () {
   declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
   build "racket" "${installer}" "${version}" "${version}";
 
-  declare -r bc_installer_path="racket-minimal-${version}-x86_64-linux-bc.sh";
-  declare -r bc_installer=$(installer_url "${version}" "${bc_installer_path}") || exit "${?}";
-  build "racket" "${bc_installer}" "${version}" "${version}-bc";
-
   declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg.sh";
   declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
   build "racket" "${full_installer}" "${version}" "${version}-full";
 
-  declare -r full_bc_installer_path="racket-${version}-x86_64-linux-bc.sh";
-  declare -r full_bc_installer=$(installer_url "${version}" "${full_bc_installer_path}") || exit "${?}";
-  build "racket" "${full_bc_installer}" "${version}" "${version}-bc-full";
+  # Starting with 8.18, BC builds are no longer provided. The next
+  # version is likely going to be 9.0, so we only need to check for
+  # 8.18 as of this writing.
+  if [ "$version" != "8.18" ]; then
+      declare -r bc_installer_path="racket-minimal-${version}-x86_64-linux-bc.sh";
+      declare -r bc_installer=$(installer_url "${version}" "${bc_installer_path}") || exit "${?}";
+      build "racket" "${bc_installer}" "${version}" "${version}-bc";
+
+      declare -r full_bc_installer_path="racket-${version}-x86_64-linux-bc.sh";
+      declare -r full_bc_installer=$(installer_url "${version}" "${full_bc_installer_path}") || exit "${?}";
+      build "racket" "${full_bc_installer}" "${version}" "${version}-bc-full";
+  fi
 };
 
 build_7x () {
@@ -124,7 +123,7 @@ foreach () {
   done;
 };
 
-declare -r LATEST_RACKET_VERSION="8.17";
+declare -r LATEST_RACKET_VERSION="8.18";
 
 tag_latest () {
   declare -r repository="${1}";
@@ -133,7 +132,7 @@ tag_latest () {
 
 # The 8x series is split into two to avoid running into storage limits in CI.
 build_8x_2 () {
-  foreach build_8x "8.10" "8.11" "8.11.1" "8.12" "8.13" "8.14" "8.15" "8.16" "8.17";
+  foreach build_8x "8.10" "8.11" "8.11.1" "8.12" "8.13" "8.14" "8.15" "8.16" "8.17" "8.18";
   tag_latest "${DOCKER_REPOSITORY}";
   tag_latest "${SECONDARY_DOCKER_REPOSITORY}";
 }

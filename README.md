@@ -1,9 +1,9 @@
 # racket-docker
 
-Docker images for various Racket versions available on DockerHub as [`racket/racket:<version>`](https://hub.docker.com/r/racket/racket/). For example, to run a Racket 8.17 REPL:
+Docker images for various Racket versions available on DockerHub as [`racket/racket:<version>`](https://hub.docker.com/r/racket/racket/). For example, to run a Racket 8.18 REPL:
 
 ```
-$ docker run -it racket/racket:8.17-full
+$ docker run -it racket/racket:8.18-full
 ```
 
 #### Normal images
@@ -16,7 +16,7 @@ These images use the `minimal-install` of Racket to avoid pulling in things like
 DrRacket or Scribble. This also means many `raco` commands such as `raco make`
 will be missing; install the `compiler-lib` package to get most of the standard
 `raco` commands. Alternatively, use the "full" images instead such as
-`racket/racket:8.17-full`.
+`racket/racket:8.18-full`.
 
 Versions: 6.1 and above. Racket CS images are available for 7.4 and above.
 
@@ -44,11 +44,13 @@ the full distribution of the CS variant of Racket 7.9.
 
 #### Racket before Chez (BC) images
 
-As of the 8.0 release, Racket BC images are tagged with `-bc` and
-`-bc-full`.  For example, `racket/racket:8.0-bc-full` is the full
-distribution of the BC variant of Racket 8.0, whereas
+As of the 8.0 release, Racket BC images are tagged with `-bc`
+and `-bc-full`. For example, `racket/racket:8.0-bc-full` is
+the full distribution of the BC variant of Racket 8.0, whereas
 `racket/racket:7.9-full` is the full distribution of the BC variant of
 Racket 7.9 (before CS was made the default).
+
+Racket BC images are only available up to version 8.17.
 
 
 ## Local development
