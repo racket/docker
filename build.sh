@@ -3,6 +3,7 @@
 set -euxfo pipefail;
 
 case "${1:-x}" in
+  9x) declare -r series="9x" ;;
   8x_2) declare -r series="8x_2" ;;
   8x_1) declare -r series="8x_1" ;;
   8x) declare -r series="8x" ;;
@@ -10,7 +11,7 @@ case "${1:-x}" in
   6x) declare -r series="6x" ;;
   snapshot) declare -r series="snapshot" ;;
 
-  *) echo "usage: $0 [6x|7x|8x|8x_1|8x_2|snapshot]"
+  *) echo "usage: $0 [6x|7x|8x|8x_1|8x_2|9x|snapshot]"
      exit 1
      ;;
 esac
@@ -57,6 +58,18 @@ build_snapshot () {
   declare -r full_installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-buster.sh";
   build "racket" "${full_installer}" "${version}" "${version}-full";
 }
+
+build_9x () {
+  declare -r version="${1}";
+
+  declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
+  declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
+  build "racket" "${installer}" "${version}" "${version}";
+
+  declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg.sh";
+  declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
+  build "racket" "${full_installer}" "${version}" "${version}-full";
+};
 
 build_8x () {
   declare -r version="${1}";
@@ -123,18 +136,22 @@ foreach () {
   done;
 };
 
-declare -r LATEST_RACKET_VERSION="8.18";
+declare -r LATEST_RACKET_VERSION="9.0";
 
 tag_latest () {
   declare -r repository="${1}";
   docker image tag "${repository}:${LATEST_RACKET_VERSION}" "${repository}:latest";
 };
 
+build_all_9x () {
+  foreach build_9x "9.0";
+  tag_latest "${DOCKER_REPOSITORY}";
+  tag_latest "${SECONDARY_DOCKER_REPOSITORY}";
+}
+
 # The 8x series is split into two to avoid running into storage limits in CI.
 build_8x_2 () {
   foreach build_8x "8.10" "8.11" "8.11.1" "8.12" "8.13" "8.14" "8.15" "8.16" "8.17" "8.18";
-  tag_latest "${DOCKER_REPOSITORY}";
-  tag_latest "${SECONDARY_DOCKER_REPOSITORY}";
 }
 
 build_8x_1 () {
@@ -158,6 +175,7 @@ build_all_6x () {
 build_base;
 
 case "$series" in
+  9x) build_all_9x ;;
   8x_2) build_8x_2 ;;
   8x_1) build_8x_1 ;;
   8x) build_all_8x ;;
