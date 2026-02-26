@@ -136,7 +136,7 @@ foreach () {
   done;
 };
 
-declare -r LATEST_RACKET_VERSION="9.0";
+declare -r LATEST_RACKET_VERSION="9.1";
 
 tag_latest () {
   declare -r repository="${1}";
@@ -144,7 +144,7 @@ tag_latest () {
 };
 
 build_all_9x () {
-  foreach build_9x "9.0";
+  foreach build_9x "9.0" "9.1";
   tag_latest "${DOCKER_REPOSITORY}";
   tag_latest "${SECONDARY_DOCKER_REPOSITORY}";
 }
