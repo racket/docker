@@ -56,7 +56,7 @@ build_image() {
         return 1
     fi
     
-    # Build the image
+    # Build the image (NO PUSH)
     docker build \
         --build-arg RACKET_VERSION="$version" \
         --build-arg VARIANT="$variant" \
