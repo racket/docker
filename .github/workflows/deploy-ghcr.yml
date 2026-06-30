@@ -1,0 +1,108 @@
+name: Build and Push Docker Images to GHCR
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      versions:
+        description: 'Racket versions to build (space-separated, e.g., "9.2 8.17 7.9")'
+        required: false
+        default: '9.2 8.17 8.0 7.9'
+      push_to_ghcr:
+        description: 'Push to GHCR?'
+        required: true
+        default: true
+        type: boolean
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      packages: write
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Make scripts executable
+        run: |
+          chmod +x ./build.sh
+          chmod +x ./test.sh
+      
+      - name: Build Docker images
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            # Use versions from workflow input
+            ./build.sh ${{ github.event.inputs.versions }}
+          else
+            # Build all versions on push to main
+            ./build.sh
+          fi
+      
+      - name: Test Docker images
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            # Test only the versions we built
+            ./test.sh ${{ github.event.inputs.versions }}
+          else
+            # Test all images
+            ./test.sh
+          fi
+      
+      - name: Tag and push images to GHCR
+        if: success() && (github.event_name != 'workflow_dispatch' || github.event.inputs.push_to_ghcr == 'true')
+        run: |
+          # Get all built racket images
+          IMAGES=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep "^racket/racket:" | sort -u)
+          
+          # Determine which versions to push
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            VERSIONS_TO_PUSH="${{ github.event.inputs.versions }}"
+          else
+            # On push to main, push specific versions (you can adjust this list)
+            VERSIONS_TO_PUSH="9.2 9.1 8.17 8.0 7.9"
+          fi
+          
+          echo "Pushing versions: $VERSIONS_TO_PUSH"
+          
+          # Push each image
+          for version in $VERSIONS_TO_PUSH; do
+            # Find all tags for this version
+            for tag in $(docker images --format "{{.Tag}}" | grep "^$version" | sort -u); do
+              local_image="racket/racket:$tag"
+              ghcr_image="ghcr.io/${{ github.repository_owner }}/racket:$tag"
+              
+              echo "Tagging $local_image -> $ghcr_image"
+              docker tag "$local_image" "$ghcr_image"
+              
+              echo "Pushing $ghcr_image"
+              docker push "$ghcr_image"
+            done
+          done
+          
+          # Push latest tag for the newest stable version
+          echo "Tagging and pushing latest..."
+          docker tag racket/racket:9.2-full ghcr.io/${{ github.repository_owner }}/racket:latest
+          docker push ghcr.io/${{ github.repository_owner }}/racket:latest
+          
+          echo "✅ All images pushed to GHCR"
+      
+      - name: List pushed images
+        if: success()
+        run: |
+          echo "Pushed images to GHCR:"
+          docker images --format "table {{.Repository}}:{{.Tag}}\t{{.Size}}" | grep "ghcr.io" | sort
