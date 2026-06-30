@@ -56,10 +56,14 @@ build_image() {
         return 1
     fi
     
+    # Compute a sensible installer URL for this Racket version and pass it to the Docker build
+    INSTALLER_URL="https://download.racket-lang.org/installers/racket-${version}-x86_64-linux.sh"
+
     # Build the image (NO PUSH)
     docker build \
         --build-arg RACKET_VERSION="$version" \
         --build-arg VARIANT="$variant" \
+        --build-arg RACKET_INSTALLER_URL="$INSTALLER_URL" \
         -t "$image_name" \
         -f "$dockerfile" \
         . || {
