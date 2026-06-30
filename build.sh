@@ -1,185 +1,108 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-set -euxfo pipefail;
+set -e
 
-case "${1:-x}" in
-  9x) declare -r series="9x" ;;
-  8x_2) declare -r series="8x_2" ;;
-  8x_1) declare -r series="8x_1" ;;
-  8x) declare -r series="8x" ;;
-  7x) declare -r series="7x" ;;
-  6x) declare -r series="6x" ;;
-  snapshot) declare -r series="snapshot" ;;
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
 
-  *) echo "usage: $0 [6x|7x|8x|8x_1|8x_2|9x|snapshot]"
-     exit 1
-     ;;
-esac
-
-source "_common.sh";
-
-build_base () {
-  docker image build \
-         --file "base.Dockerfile" \
-         --tag "base" \
-         .;
+# Function to print colored output
+print_status() {
+    echo -e "${GREEN}[BUILD]${NC} $1"
 }
 
-build () {
-  declare -r dockerfile_name="${1}";
-  declare -r installer_url="${2}";
-  declare -r version="${3}";
-  declare -r image_name="${4}";
-  declare -r tag="${DOCKER_REPOSITORY}:${image_name}";
-  declare -r secondary_tag="${SECONDARY_DOCKER_REPOSITORY}:${image_name}";
-
-  docker image build \
-      --file "${dockerfile_name}.Dockerfile" \
-      --tag "${DOCKER_REPOSITORY}:${image_name}" \
-      --build-arg "RACKET_INSTALLER_URL=${installer_url}" \
-      --build-arg "RACKET_VERSION=${version}" \
-      .;
-
-  docker image tag "${tag}" "${secondary_tag}";
-};
-
-installer_url () {
-  declare -r version="${1}";
-  declare -r installer_path="${2}";
-  echo "https://download.racket-lang.org/installers/${version}/${installer_path}";
-};
-
-build_snapshot () {
-  declare -r version="snapshot";
-
-  declare -r installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-minimal-current-x86_64-linux-buster.sh";
-  build "racket" "${installer}" "${version}" "${version}";
-
-  declare -r full_installer="https://users.cs.utah.edu/plt/snapshots/current/installers/racket-current-x86_64-linux-buster.sh";
-  build "racket" "${full_installer}" "${version}" "${version}-full";
+print_warning() {
+    echo -e "${YELLOW}[WARN]${NC} $1"
 }
 
-build_9x () {
-  declare -r version="${1}";
-
-  declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
-  declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-  build "racket" "${installer}" "${version}" "${version}";
-
-  declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg.sh";
-  declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
-  build "racket" "${full_installer}" "${version}" "${version}-full";
-};
-
-build_8x () {
-  declare -r version="${1}";
-
-  declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
-  declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-  build "racket" "${installer}" "${version}" "${version}";
-
-  declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg.sh";
-  declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
-  build "racket" "${full_installer}" "${version}" "${version}-full";
-
-  # Starting with 8.18, BC builds are no longer provided. The next
-  # version is likely going to be 9.0, so we only need to check for
-  # 8.18 as of this writing.
-  if [ "$version" != "8.18" ]; then
-      declare -r bc_installer_path="racket-minimal-${version}-x86_64-linux-bc.sh";
-      declare -r bc_installer=$(installer_url "${version}" "${bc_installer_path}") || exit "${?}";
-      build "racket" "${bc_installer}" "${version}" "${version}-bc";
-
-      declare -r full_bc_installer_path="racket-${version}-x86_64-linux-bc.sh";
-      declare -r full_bc_installer=$(installer_url "${version}" "${full_bc_installer_path}") || exit "${?}";
-      build "racket" "${full_bc_installer}" "${version}" "${version}-bc-full";
-  fi
-};
-
-build_7x () {
-  declare -r version="${1}";
-
-  declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
-  declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-  build "racket" "${installer}" "${version}" "${version}";
-
-  declare -r cs_installer_path="racket-minimal-${version}-x86_64-linux-natipkg-cs.sh";
-  declare -r cs_installer=$(installer_url "${version}" "${cs_installer_path}") || exit "${?}";
-  build "racket" "${cs_installer}" "${version}" "${version}-cs";
-
-  declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg.sh";
-  declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
-  build "racket" "${full_installer}" "${version}" "${version}-full";
-
-  declare -r full_cs_installer_path="racket-${version}-x86_64-linux-natipkg-cs.sh";
-  declare -r full_cs_installer=$(installer_url "${version}" "${full_cs_installer_path}") || exit "${?}";
-  build "racket" "${full_cs_installer}" "${version}" "${version}-cs-full";
-};
-
-build_6x_7x_old () {
-  declare -r version="${1}";
-
-  declare -r installer_path="racket-minimal-${version}-x86_64-linux-natipkg.sh";
-  declare -r installer=$(installer_url "${version}" "${installer_path}") || exit "${?}";
-  build "racket" "${installer}" "${version}" "${version}";
-
-  declare -r full_installer_path="racket-${version}-x86_64-linux-natipkg.sh";
-  declare -r full_installer=$(installer_url "${version}" "${full_installer_path}") || exit "${?}";
-  build "racket" "${full_installer}" "${version}" "${version}-full";
-};
-
-foreach () {
-  declare -r command="${1}";
-  declare -r args=("${@:2}");
-  for _arg in "${args[@]}"; do
-    "${command}" "${_arg}";
-  done;
-};
-
-declare -r LATEST_RACKET_VERSION="9.2";
-
-tag_latest () {
-  declare -r repository="${1}";
-  docker image tag "${repository}:${LATEST_RACKET_VERSION}" "${repository}:latest";
-};
-
-build_all_9x () {
-  foreach build_9x "9.0" "9.1" "9.2";
-  tag_latest "${DOCKER_REPOSITORY}";
-  tag_latest "${SECONDARY_DOCKER_REPOSITORY}";
+print_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
 }
 
-# The 8x series is split into two to avoid running into storage limits in CI.
-build_8x_2 () {
-  foreach build_8x "8.10" "8.11" "8.11.1" "8.12" "8.13" "8.14" "8.15" "8.16" "8.17" "8.18";
+# Default versions if none provided
+if [ $# -eq 0 ]; then
+    # All supported Racket versions (from your repository)
+    VERSIONS=(
+        "9.2" "9.1" "9.0"
+        "8.17" "8.16" "8.15" "8.14" "8.13" "8.12" "8.11" "8.10"
+        "8.9" "8.8" "8.7" "8.6" "8.5" "8.4" "8.3" "8.2" "8.1" "8.0"
+        "7.9" "7.8" "7.7" "7.6" "7.5" "7.4"
+        "7.3" "7.2" "7.1" "7.0"
+        "6.12" "6.11" "6.10" "6.9" "6.8" "6.7" "6.6" "6.5" "6.4" "6.3" "6.2" "6.1"
+    )
+else
+    VERSIONS=("$@")
+fi
+
+print_status "Building Racket versions: ${VERSIONS[*]}"
+echo "----------------------------------------"
+
+# Function to build a single image
+build_image() {
+    local version=$1
+    local variant=$2
+    local tag_suffix=$3
+    local dockerfile=${4:-"racket.Dockerfile"}
+    
+    local image_name="racket/racket:$version$tag_suffix"
+    
+    print_status "Building $image_name..."
+    
+    # Check if Dockerfile exists
+    if [ ! -f "$dockerfile" ]; then
+        print_error "Dockerfile $dockerfile not found!"
+        return 1
+    fi
+    
+    # Build the image
+    docker build \
+        --build-arg RACKET_VERSION="$version" \
+        --build-arg VARIANT="$variant" \
+        -t "$image_name" \
+        -f "$dockerfile" \
+        . || {
+            print_error "Failed to build $image_name"
+            return 1
+        }
+    
+    print_status "✅ Successfully built $image_name"
+    echo ""
 }
 
-build_8x_1 () {
-  foreach build_8x "8.0" "8.1" "8.2" "8.3" "8.4" "8.5" "8.6" "8.7" "8.8" "8.9";
-}
+# Main build loop
+for version in "${VERSIONS[@]}"; do
+    print_status "Processing Racket version $version"
+    echo "----------------------------------------"
+    
+    # Build minimal variant (this is the default)
+    build_image "$version" "minimal" "-minimal"
+    
+    # Build full variant
+    build_image "$version" "full" "-full"
+    
+    # For versions >= 7.4, build CS variants
+    if [[ $(echo "$version >= 7.4" | bc 2>/dev/null || echo "0") -eq 1 ]]; then
+        print_status "Building CS variants for version $version"
+        build_image "$version" "cs" "-cs"
+        build_image "$version" "cs-full" "-cs-full"
+    fi
+    
+    # For versions < 8.0, build BC variants
+    if [[ $(echo "$version < 8.0" | bc 2>/dev/null || echo "0") -eq 1 ]]; then
+        print_status "Building BC variants for version $version"
+        build_image "$version" "bc" "-bc"
+        build_image "$version" "bc-full" "-bc-full"
+    fi
+    
+    echo "----------------------------------------"
+    echo ""
+done
 
-build_all_8x () {
-  build_8x_1;
-  build_8x_2;
-}
+print_status "✅ Build complete for versions: ${VERSIONS[*]}"
 
-build_all_7x () {
-  foreach build_6x_7x_old "7.0" "7.1" "7.3";
-  foreach build_7x "7.4" "7.5" "7.6" "7.7" "7.8" "7.9";
-}
-
-build_all_6x () {
-  foreach build_6x_7x_old "6.5" "6.6" "6.7" "6.8" "6.9" "6.10" "6.10.1" "6.11" "6.12";
-}
-
-build_base;
-
-case "$series" in
-  9x) build_all_9x ;;
-  8x_2) build_8x_2 ;;
-  8x_1) build_8x_1 ;;
-  8x) build_all_8x ;;
-  7x) build_all_7x ;;
-  6x) build_all_6x ;;
-  snapshot) build_snapshot ;;
-esac
+# List all built images
+echo ""
+print_status "Built images:"
+docker images --format "table {{.Repository}}:{{.Tag}}\t{{.Size}}" | grep "racket/racket" | sort
